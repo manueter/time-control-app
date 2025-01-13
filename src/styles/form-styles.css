@@ -1,0 +1,97 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: space-between;
+}
+/* General Card Styles */
+.card {
+  background-color: rgba(31, 41, 55, 0.8);
+  border: 1px solid black;
+  display: block;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  position: relative;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.2s, transform 0.3s;
+}
+
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Wrapper */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+/* Input Wrappers */
+.wrapper-input {
+  position: relative;
+  text-align: left;
+  padding: 1rem 0;
+}
+
+.wrapper-input label {
+  position: absolute;
+  top: 2rem;
+  font-size: 1rem;
+  transition: top 0.5s ease-in-out;
+}
+
+.input {
+    display: block;
+    text-align: right;
+    width: 18rem;
+    font-size: 1rem;
+    padding: 1.2rem;
+    padding-left: 4.5rem;
+    background-color: transparent;
+    border: 0;
+    color: #ffff;
+    border-bottom: 2px solid #d1d5db; 
+    appearance: none;
+    overflow-x: auto;
+}
+
+/* Hover and Focus Effects */
+.input:hover,
+.input:hover + label {
+  border-bottom-color: #3b82f6;
+  color: #6ea3f7;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: none;
+  font-size: 1.05rem;
+  color: #6ea3f7;
+  border-bottom-color: #3b82f6;
+  transition: all 0.5s ease-in-out;
+}
+
+.input:not(:placeholder-shown) + label,
+.input:focus + label {
+  top: 5.1rem;
+  color: #3b82f6;
+}
+
+input[type="checkbox"]:checked + label {
+    color: #3b82f6;
+  }
+  input[type="checkbox"]:hover + label {
+    color: #6ea1f5;
+  }
+  
+  .link:hover {
+    color: white;
+  }
+
+
+  

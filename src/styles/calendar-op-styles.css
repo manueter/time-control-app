@@ -1,0 +1,175 @@
+/* General Layout */
+.container {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+  }
+  
+  .section {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Calendar Day Grid */
+  .calendar-day-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .day-name {
+    text-align: center;
+    font-weight: bold;
+    color: #4a4a4a; /* text-gray-600 */
+  }
+  
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Calendar Day */
+  .calendar-day {
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .calendar-day:hover {
+    background-color: #ebf8ff; /* hover:bg-blue-100 */
+  }
+  
+  .calendar-day.selected {
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: white;
+  }
+  
+  /* List View */
+  .list-view {
+    margin-bottom: 1rem;
+  }
+  
+  .list-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .list-item-header {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .textarea-input {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border 0.2s ease;
+  }
+  
+  .textarea-input:focus {
+    border-color: #3b82f6; /* focus:ring-2 focus:ring-blue-500 */
+  }
+  
+  /* Controls */
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .controls-button {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .controls-button:hover {
+    background-color: #f3f4f6; /* hover:bg-gray-100 */
+  }
+  
+  .controls-button.icon {
+    font-size: 1.25rem;
+    color: #4a4a4a; /* text-gray-600 */
+  }
+  
+  /* View Toggle */
+  .view-toggle-button {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .view-toggle-button:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+  }
+  
+  .view-toggle-button span {
+    margin-left: 0.5rem;
+  }
+  
+  /* Notes Section */
+  .notes-section {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notes-section-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .notes-section .note-date {
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #e0f2fe; /* bg-blue-100 */
+    border-radius: 9999px;
+  }
+  
+  .notes-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: border 0.2s ease;
+    margin-bottom: 0.5rem;
+  }
+  
+  .notes-textarea:focus {
+    border-color: #3b82f6; /* focus:ring-2 focus:ring-blue-500 */
+  }
+  
+  .save-note-button {
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .save-note-button:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+  }

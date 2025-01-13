@@ -1,0 +1,92 @@
+.burger-sidebar {
+  position: relative;
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* bg-slate-700/60 */
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+  width: 16rem; /* Sidebar width when closed */
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  width: 16rem; /* Sidebar width when open */
+}
+
+.sidebar-content {
+  padding: 2rem 1rem; /* px-4 py-8 */
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  color: white;
+  background: none;
+  border: none;
+  text-align: left;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* hover:bg-white/20 */
+}
+
+.menu-item span {
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  padding: 1rem; /* p-4 */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* border-white/10 */
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 1rem; /* top-4 */
+  left: 0;
+  background-color: rgba(15, 23, 42, 0.6); /* bg-slate-700/60 */
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, left 0.3s ease-in-out;
+  z-index: 50;
+}
+
+.sidebar-toggle:hover {
+  background-color: rgba(30, 41, 59, 0.8); /* hover:bg-slate-600/60 */
+}
+
+.sidebar-toggle.closed{
+  left: 0; /* When sidebar is open, the toggle button moves with the sidebar */
+  
+  border-radius: 0 1rem 1rem 0;
+}
+.sidebar-toggle.open{
+  left: 15rem; /* When sidebar is open, the toggle button moves with the sidebar */ 
+  border-radius: 1rem;
+}
