@@ -66,20 +66,7 @@ project-root
 ├── src
 │   ├── assets         # Static assets (e.g., cloud-bg.png)
 │   ├── components     # Reusable React components
-│   │   ├── calendar.tsx
-│   │   ├── clock.tsx
-│   │   ├── clockdisplay.tsx
-│   │   ├── clockwise.tsx
-│   │   ├── dropdownmenu.tsx
-│   │   ├── entriesbutton.tsx
-│   │   ├── note.tsx
-│   │   ├── sidebar.tsx
-│   │   └── togglebutton.tsx
 │   ├── pages          # Application pages
-│   │   ├── CalendarPage.tsx
-│   │   ├── ClockPage.tsx
-│   │   ├── Login.tsx
-│   │   └── Register.tsx
 │   ├── styles         # CSS files
 │   ├── utils          # Utility functions (e.g., dateUtils.ts)
 │   ├── App.tsx        # Main application entry
@@ -93,35 +80,11 @@ project-root
 
 > **Note**: The structure and files of this project are subject to change as development progresses.
 
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix:
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Add your message here"
-   ```
-4. Push to your branch:
-   ```bash
-   git push origin feature-name
-   ```
-5. Submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
-
 ## Contact
 
 For any inquiries or feedback, please reach out to:
 
-- **Email**: [your-email@example.com](mailto:your-email@example.com)
-- **GitHub**: [your-username](https://github.com/your-username)
+- **Email**: [manuelnuez@tutanota.com](mailto:mannuelnuez@tutanota.com)
+- **GitHub**: [manueter](https://github.com/manueter)
 
 ---
-Thank you for using the Time Control Web Application!
