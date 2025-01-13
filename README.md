@@ -1,50 +1,127 @@
-# React + TypeScript + Vite
+# Time Control Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This Time Control Web Application is a tool to track and manage time effectively. It enables users to register and log their activities through a virtual clock and view their records on a calendar. Additionally, users can add notes to specific days for better organization.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Authentication**: 
+  - Login and register functionality to securely access personal activity data.
+- **Activity Logging**: 
+  - Logged-in users can register activities using a virtual clock.
+  - Users can select predefined activity types or create custom entries.
+- **Calendar View**: 
+  - A calendar that displays logged activities for each day.
+  - Allows adding and viewing notes for specific days.
+- **Responsive Design**: 
+  - Optimized for use across devices (desktop, tablet, and mobile).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **Frontend**:
+  - [React](https://reactjs.org/): A JavaScript library for building user interfaces.
+  - [Vite](https://vitejs.dev/): A fast build tool and development server.
+  - [TypeScript](https://www.typescriptlang.org/): A strongly typed programming language that builds on JavaScript.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Installation
+
+### Prerequisites
+
+- Node.js (>= 14.x)
+- Yarn
+
+### Steps to Run Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/time-control-app.git
+   cd time-control-app
+   ```
+
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+3. Start the development server:
+   ```bash
+   yarn dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:5173`.
+
+## Usage
+
+1. **Register an Account**: Create a new account using the registration form.
+2. **Log In**: Access your account with your email and password.
+3. **Register Activities**: Use the virtual clock to log your activities.
+4. **View Calendar**: Navigate to the calendar to see your logged activities and add notes.
+5. **Add Notes**: Click on a specific day to add or edit notes.
+
+## Project Structure
+
+```
+project-root
+├── src
+│   ├── assets         # Static assets (e.g., cloud-bg.png)
+│   ├── components     # Reusable React components
+│   │   ├── calendar.tsx
+│   │   ├── clock.tsx
+│   │   ├── clockdisplay.tsx
+│   │   ├── clockwise.tsx
+│   │   ├── dropdownmenu.tsx
+│   │   ├── entriesbutton.tsx
+│   │   ├── note.tsx
+│   │   ├── sidebar.tsx
+│   │   └── togglebutton.tsx
+│   ├── pages          # Application pages
+│   │   ├── CalendarPage.tsx
+│   │   ├── ClockPage.tsx
+│   │   ├── Login.tsx
+│   │   └── Register.tsx
+│   ├── styles         # CSS files
+│   ├── utils          # Utility functions (e.g., dateUtils.ts)
+│   ├── App.tsx        # Main application entry
+│   ├── index.css      # Global styles
+│   ├── main.html      # HTML template
+│   └── app.css        # Application-specific styles
+├── public             # Static assets
+├── package.json       # Project dependencies and scripts
+└── vite.config.ts     # Vite configuration
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+> **Note**: The structure and files of this project are subject to change as development progresses.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Contributing
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add your message here"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature-name
+   ```
+5. Submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+## Contact
+
+For any inquiries or feedback, please reach out to:
+
+- **Email**: [your-email@example.com](mailto:your-email@example.com)
+- **GitHub**: [your-username](https://github.com/your-username)
+
+---
+Thank you for using the Time Control Web Application!
