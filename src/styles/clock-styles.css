@@ -1,6 +1,6 @@
 /* Styles for Entry Wrapper */
 .entryWrapper {
-    display: flex;
+    display:block;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -80,3 +80,8 @@
   right: 10px;
 }
 
+.loading-indicator {
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+}

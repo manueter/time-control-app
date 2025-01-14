@@ -1,7 +1,6 @@
 import "../styles/sidebar-styles.css";
 import { useState } from "react";
 import {
-  FiHome,
   FiClock,
   FiUser,
   FiCalendar,

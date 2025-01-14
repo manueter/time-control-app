@@ -105,30 +105,6 @@ const Calendar: React.FC = () => {
     return days;
   };
 
-  const getWeeksInMonth = (date: Date) => {
-    const days = getDaysInMonth(date);
-    const weeks: (Date | null)[][] = [];
-    let currentWeek: (Date | null)[] = [];
-
-    days.forEach((day, index) => {
-      if (index % 7 === 0 && currentWeek.length) {
-        weeks.push(currentWeek);
-        currentWeek = [];
-      }
-      currentWeek.push(day);
-    });
-
-    if (currentWeek.length) {
-      weeks.push(currentWeek);
-    }
-
-    return weeks;
-  };
-
-  const getMonthsInYear = (date: Date) => {
-    const year = date.getFullYear();
-    return Array.from({ length: 12 }, (_, i) => new Date(year, i, 1));
-  };
 
   const navigateMonth = (direction: number) => {
     const newDate = new Date(currentDate);
