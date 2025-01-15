@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext"; // Import the AuthContext
-import ClockDisplay from "../components/ClockDisplay";
-import EntriesButtons from "../components/EntriesButtons";
-import ClockWise from "../components/ClockWise";
+import ClockDisplay from "../components/Clock/ClockDisplay";
+import EntriesButtons from "../components/Clock/EntriesButtons";
+import ClockWise from "../components/Clock/ClockWise";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ClockPage = () => {
@@ -22,9 +22,6 @@ const ClockPage = () => {
     }
 
     setIsLoading(true);
-
-    //const currentTime = new Date().toLocaleTimeString();
-    //const currentDate = new Date().toISOString().split("T")[0];
 
     try {
       const response = await fetch(`${API_BASE_URL}/addentry`, {

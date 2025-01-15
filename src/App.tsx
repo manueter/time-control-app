@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Clock from "./pages/ClockPage";
 import SideBar from "./components/SideBar";
-import Calendar from "./components/Calendar";
+import Calendar from "./components/Calendar/Calendar";
 import ProtectedRoute from "./pages/ProtectedRoute";
 function App() {
   return (

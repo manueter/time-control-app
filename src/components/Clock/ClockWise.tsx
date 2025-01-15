@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../styles/clockwise-styles.css"; // Import the CSS file
+import "../../styles/clockwise-styles.css"; // Import the CSS file
 
 const ClockWise = () => {
   const [time, setTime] = useState(new Date());

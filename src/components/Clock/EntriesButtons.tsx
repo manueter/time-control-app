@@ -1,5 +1,5 @@
-import "../styles/form-styles.css";
-import "../styles/clock-styles.css";
+import "../../styles/form-styles.css";
+import "../../styles/clock-styles.css";
 import { useState, useEffect } from "react";
 
 interface Entry {

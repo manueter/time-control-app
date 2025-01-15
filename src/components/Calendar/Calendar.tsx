@@ -6,36 +6,13 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import "../styles/calendar-styles.css";
-import { monthNames, daysInWeek } from "../utils/dateUtils";
+import "../../styles/calendar-styles.css";
+import { monthNames, daysInWeek } from "../../utils/dateUtils";
+import DayCell from "./DayCell";
+import { useFetchEntries } from "../../hooks/useFetchEntries";
+
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-interface Note {
-  uuid: string;
-  type: string;
-  value: string;
-  date: string;
-  time: string;
-  createdAt: string;
-  username: string;
-}
-
-interface NotesObject {
-  [key: string]: Note;
-}
-
-interface Entry {
-  entry_id: string;
-  user_uuid: string;
-  entry_type: string;
-  date: string;
-  time: string;
-  clock_id: string;
-}
-
-interface EntriesObject {
-  [key: string]: Entry[];
-}
 
 const Calendar: React.FC = () => {
   const [viewType, setViewType] = useState("month");
@@ -47,66 +24,18 @@ const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<Date | null>(new Date());
 
-  const [notes, setNotes] = useState<NotesObject>({});
-  const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
-  const [entries, setEntries] = useState<EntriesObject>({});
+  //create a hook and correspond
+  const [notes, setNotes] = useState<string>("");
+  const [currentNote, setCurrentNote] = useState<string | null>(null);
 
-  const fetchNotes = async (): Promise<void> => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/user_notes.json`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+  const [entries, fetchEntries] = useFetchEntries(); // Destructure fetchEntries here
 
-      const data = await response.json();
-
-      const notesObject: NotesObject = data.reduce(
-        (acc: NotesObject, note: Note) => {
-          acc[note.date] = note;
-          return acc;
-        },
-        {}
-      );
-
-      setNotes(notesObject);
-    } catch (error) {
-      console.error("Failed to fetch notes:", error);
-    }
-  };
-
-  const fetchEntries = async (): Promise<void> => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/entries.json`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data: Entry[] = await response.json();
-
-      const entriesObject: EntriesObject = data.reduce(
-        (acc: EntriesObject, entry: Entry) => {
-          if (!acc[entry.date]) acc[entry.date] = [];
-          acc[entry.date].push(entry);
-          return acc;
-        },
-        {}
-      );
-
-      setEntries(entriesObject);
-    } catch (error) {
-      console.error("Failed to fetch entries:", error);
-    }
-  };
-
-  // FETCH DATA
   useEffect(() => {
-    fetchEntries();
-    fetchNotes();
-  }, []);
-
+    fetchEntries(); // Call the fetchEntries function to fetch data
+  }, [fetchEntries]);
+  
   //for KEY PRESSED
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -127,6 +56,7 @@ const Calendar: React.FC = () => {
     };
   }, []);
 
+
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -144,6 +74,8 @@ const Calendar: React.FC = () => {
 
     return days;
   };
+  const days = getDaysInMonth(currentDate); // Utility function moved to a separate file.
+
 
   const navigateMonth = (direction: number) => {
     const newDate = new Date(currentDate);
@@ -186,73 +118,73 @@ const Calendar: React.FC = () => {
     }
   };
 
-  const handleNoteSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
+  // const handleNoteSubmit = async (e: React.FormEvent): Promise<void> => {
+  //   e.preventDefault();
 
-    if (currentNote && selectedDate && selectedTime) {
-      const noteDate = selectedDate.toISOString();
-      const noteTime = selectedTime.toISOString();
-      // Create a new note with the correct structure
-      const newNote: Note = {
-        uuid: crypto.randomUUID(),
-        type: "text",
-        value: currentNote.value.trim(),
-        date: noteDate,
-        time: noteTime, // Get the current time
-        createdAt: new Date().toISOString(), // Timestamp when the note was created
-        username: "current_user", // Adjust to get the actual username
-      };
+  //   if (currentNote && selectedDate && selectedTime) {
+  //     const noteDate = selectedDate.toISOString();
+  //     const noteTime = selectedTime.toISOString();
+  //     // Create a new note with the correct structure
+  //     const newNote: Note = {
+  //       uuid: crypto.randomUUID(),
+  //       type: "text",
+  //       value: currentNote.value.trim(),
+  //       date: noteDate,
+  //       time: noteTime, // Get the current time
+  //       createdAt: new Date().toISOString(), // Timestamp when the note was created
+  //       username: "current_user", // Adjust to get the actual username
+  //     };
 
-      try {
-        const response = await fetch(`${API_BASE_URL}/user_notes.json`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newNote),
-        });
+  //     try {
+  //       const response = await fetch(`${API_BASE_URL}/user_notes.json`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(newNote),
+  //       });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
 
-        // Update the local notes state with the new note
-        setNotes({
-          ...notes,
-          [noteDate]: currentNote,
-        });
+  //       // Update the local notes state with the new note
+  //       setNotes({
+  //         ...notes,
+  //         [noteDate]: currentNote,
+  //       });
 
-        // Reset form fields
-        setCurrentNote(currentNote);
-        setIsModalOpen(false);
-      } catch (error) {
-        console.error("Failed to save note:", error);
-      }
-    }
-  };
+  //       // Reset form fields
+  //       setCurrentNote(currentNote);
+  //       setIsModalOpen(false);
+  //     } catch (error) {
+  //       console.error("Failed to save note:", error);
+  //     }
+  //   }
+  // };
 
-  const updateCurrentNote = (newValue: string) => {
-    setCurrentNote((prevNote) => {
-      // If prevNote is undefined, set currentNote as undefined
-      if (prevNote) {
-        // Update only the value field while keeping the other properties intact
-        return {
-          uuid: prevNote.uuid,
-          type: prevNote.type,
-          date: prevNote.date,
-          time: prevNote.time,
-          createdAt: prevNote.createdAt,
-          username: prevNote.username,
-          value: newValue,
-        };
-      }
-      return null;
-    });
-  };
+  // const updateCurrentNote = (newValue: string) => {
+  //   setCurrentNote((prevNote) => {
+  //     // If prevNote is undefined, set currentNote as undefined
+  //     if (prevNote) {
+  //       // Update only the value field while keeping the other properties intact
+  //       return {
+  //         uuid: prevNote.uuid,
+  //         type: prevNote.type,
+  //         date: prevNote.date,
+  //         time: prevNote.time,
+  //         createdAt: prevNote.createdAt,
+  //         username: prevNote.username,
+  //         value: newValue,
+  //       };
+  //     }
+  //     return null;
+  //   });
+  // };
 
   const openNoteModal = (date: Date) => {
     setSelectedDate(date);
-    setCurrentNote(notes[date.toISOString()] || {});
+    // setCurrentNote(note || {});
     setIsModalOpen(true);
   };
 
@@ -304,38 +236,15 @@ const Calendar: React.FC = () => {
               {day}
             </div>
           ))}
-          {getDaysInMonth(currentDate).map((date, index) => (
-            <div
+          {days.map((date, index) => (
+            <DayCell
               key={index}
-              className={`day-cell ${
-                date
-                  ? selectedDates.some(
-                      (d) => d.toISOString() === date.toISOString()
-                    )
-                    ? "selected"
-                    : ""
-                  : "empty"
-              }`}
-              onClick={() => date && handleDateClick(date)}
-              onDoubleClick={() => date && openNoteModal(date)}
-            >
-              {date && (
-                <>
-                  <div className="day-number">{date.getDate()}</div>
-                  {notes[date.toISOString()] && (
-                    <div className="note-preview">
-                      {notes[date.toISOString()].value}
-                    </div>
-                  )}
-                  {entries[date.toISOString()]?.map((entry) => (
-                    <div key={entry.entry_id} className="entry-preview">
-                      {entry.entry_type} at {entry.time}
-                    </div>
-                  ))}
-                </>
-              )}
-            </div>
+              date={date}
+              entries={entries[date?.toISOString() || ""]}
+              onClick={handleDateClick}
+            />
           ))}
+          
         </div>
       )}
 
@@ -351,7 +260,7 @@ const Calendar: React.FC = () => {
                 <FaTimes />
               </button>
             </div>
-            <form onSubmit={handleNoteSubmit}>
+            {/* <form onSubmit={handleNoteSubmit}>
               <textarea
                 value={currentNote?.value}
                 onChange={(e) => updateCurrentNote(e.target.value)}
@@ -362,7 +271,7 @@ const Calendar: React.FC = () => {
               <button type="submit" className="save-note-button">
                 Save Note
               </button>
-            </form>
+            </form> */}
           </div>
         </div>
       )}
