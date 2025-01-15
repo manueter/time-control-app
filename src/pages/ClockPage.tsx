@@ -36,7 +36,7 @@ const ClockPage = () => {
         body: JSON.stringify({
           clock_id: clockId,
           entry_type: entryValue,
-          user_uuid: user.id,
+          user_uuid: user.user_uuid,
           // entry: entryValue,
           // time: currentTime,
           // date: currentDate,

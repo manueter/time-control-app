@@ -1,7 +1,7 @@
 import "../styles/form-styles.css";
 import { BiUser } from "react-icons/bi";
 import { AiOutlineLock } from "react-icons/ai";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -11,8 +11,8 @@ const Login = () => {
   const [showCard, setShowCard] = useState(false);
   const { login } = useAuth();
   const [emailOrUsername, setEmailOrUsername] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowCard(true), 70); // Show after 50ms
@@ -46,10 +46,11 @@ const Login = () => {
       }
 
       const data = await response.json();
-      login({ id: data.user_id, email: data.email, token: data.token });
+      login({ user_uuid: data.user_uuid, token: data.token });
       alert("Sesión iniciada!");
+      navigate("/clock"); // Redirect to the Clock page
     } catch (error) {
-      if(error instanceof Error){
+      if (error instanceof Error) {
         console.error("Error al iniciar sesión:", error);
         alert(error.message || "No se pudo iniciar sesión.");
       }
@@ -58,12 +59,12 @@ const Login = () => {
 
   return (
     <div className={`card ${showCard ? "show" : ""}`}>
-      <h1>Inicio sesion</h1>
+      <h1>Iniciar sesión</h1>
       <form onSubmit={handleLogin} className="flex">
         <div className="wrapper-input">
           <input
             type="text"
-            placeholder="Enter email or username"
+            placeholder="Ingrese email o usuario"
             value={emailOrUsername}
             onChange={(e) => setEmailOrUsername(e.target.value)}
             className="input"
@@ -73,19 +74,21 @@ const Login = () => {
           </label>
         </div>
         <div className="wrapper-input">
-          <input id="pwd" type="password" className="input" placeholder=""  value={password}
-    onChange={(e) => setPassword(e.target.value)}/>
+          <input
+            id="pwd"
+            type="password"
+            className="input"
+            placeholder=""
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <label htmlFor="pwd">
-            <AiOutlineLock /> Contrasena
+            <AiOutlineLock /> Contraseña
           </label>
         </div>
         <div className="wrapper">
-          <button type="submit">Iniciar sesion</button>
+          <button type="submit">Iniciar sesión</button>
           <div className="wrapper-center">
-            <div>
-              <input id="chkbx" type="checkbox" />
-              <label htmlFor="chkbx">Recordarme</label>
-            </div>
             <Link to="" className="link">
               Olvidé mi contraseña{" "}
             </Link>

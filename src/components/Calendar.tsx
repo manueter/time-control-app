@@ -9,7 +9,7 @@ import {
 import "../styles/calendar-styles.css";
 import { monthNames, daysInWeek } from "../utils/dateUtils";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
- 
+
 interface Note {
   uuid: string;
   type: string;
@@ -22,6 +22,19 @@ interface Note {
 
 interface NotesObject {
   [key: string]: Note;
+}
+
+interface Entry {
+  entry_id: string;
+  user_uuid: string;
+  entry_type: string;
+  date: string;
+  time: string;
+  clock_id: string;
+}
+
+interface EntriesObject {
+  [key: string]: Entry[];
 }
 
 const Calendar: React.FC = () => {
@@ -37,8 +50,9 @@ const Calendar: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<Date | null>(new Date());
 
   const [notes, setNotes] = useState<NotesObject>({});
-
   const [currentNote, setCurrentNote] = useState<Note | null>(null);
+
+  const [entries, setEntries] = useState<EntriesObject>({});
 
   const fetchNotes = async (): Promise<void> => {
     try {
@@ -62,8 +76,34 @@ const Calendar: React.FC = () => {
       console.error("Failed to fetch notes:", error);
     }
   };
+
+  const fetchEntries = async (): Promise<void> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/entries.json`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data: Entry[] = await response.json();
+
+      const entriesObject: EntriesObject = data.reduce(
+        (acc: EntriesObject, entry: Entry) => {
+          if (!acc[entry.date]) acc[entry.date] = [];
+          acc[entry.date].push(entry);
+          return acc;
+        },
+        {}
+      );
+
+      setEntries(entriesObject);
+    } catch (error) {
+      console.error("Failed to fetch entries:", error);
+    }
+  };
+
   // FETCH DATA
   useEffect(() => {
+    fetchEntries();
     fetchNotes();
   }, []);
 
@@ -104,7 +144,6 @@ const Calendar: React.FC = () => {
 
     return days;
   };
-
 
   const navigateMonth = (direction: number) => {
     const newDate = new Date(currentDate);
@@ -211,7 +250,7 @@ const Calendar: React.FC = () => {
     });
   };
 
-   const openNoteModal = (date: Date) => {
+  const openNoteModal = (date: Date) => {
     setSelectedDate(date);
     setCurrentNote(notes[date.toISOString()] || {});
     setIsModalOpen(true);
@@ -288,6 +327,11 @@ const Calendar: React.FC = () => {
                       {notes[date.toISOString()].value}
                     </div>
                   )}
+                  {entries[date.toISOString()]?.map((entry) => (
+                    <div key={entry.entry_id} className="entry-preview">
+                      {entry.entry_type} at {entry.time}
+                    </div>
+                  ))}
                 </>
               )}
             </div>

@@ -1,8 +1,7 @@
 import React, { createContext, useState, useContext } from "react";
 
 interface User {
-  id: string;
-  email: string;
+  user_uuid: string;
   token:string;
 }
 
@@ -15,8 +14,11 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  
   const login = (userData: User) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData)); // Persist user data

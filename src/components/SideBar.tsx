@@ -1,5 +1,7 @@
 import "../styles/sidebar-styles.css";
 import { useState } from "react";
+
+import { useAuth } from "../contexts/AuthContext";
 import {
   FiClock,
   FiUser,
@@ -10,16 +12,23 @@ import {
   FiAlignLeft,
   FiChevronLeft,
   FiChevronRight,
+  FiLogOut,
 } from "react-icons/fi";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth(); // Get user and logout function from context
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login"); // Redirect to login page after logout
+  };
   const menuItems = [
     { icon: <FiClock size={20} />, title: "Reloj", route: "/clock" },
     { icon: <FiCalendar size={20} />, title: "Calendario", route: "/calendar" },
@@ -27,8 +36,6 @@ const Sidebar = () => {
     { icon: <FiBriefcase size={20} />, title: "Registro Incidencias", route: "/incidences"},
     { icon: <FiAlignLeft size={20} />, title: "Listados", route: "/listados" },
   ];
-
-  const isAuthenticated = false; // Replace with actual authentication check
 
   return (
     <div className="burger-sidebar">
@@ -45,7 +52,7 @@ const Sidebar = () => {
         </div>
 
         <div className="sidebar-footer">
-          {isAuthenticated ? (
+          {user ? (
             <div>
               <Link to="/profile" className="menu-item">
                 <FiUser size={20} />
@@ -54,6 +61,11 @@ const Sidebar = () => {
               <button className="menu-item">
                 <FiSettings size={20} />
                 <span className="font-medium">Settings</span>
+              </button>
+              
+              <button className="menu-item" onClick={handleLogout}>
+                <FiLogOut size={20} />
+                <span className="font-medium">Logout</span>
               </button>
             </div>
           ) : (

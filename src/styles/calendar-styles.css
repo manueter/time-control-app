@@ -249,3 +249,8 @@
 .save-note-button:hover {
   background-color: #2563eb;
 }
+.entry-preview {
+  font-size: 0.8em;
+  color: #555;
+  margin-top: 4px;
+}
