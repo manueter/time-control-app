@@ -1,8 +1,8 @@
 import React from "react";
-import { daysInWeek } from "../../utils/dateUtils";
+import { daysOfWeekTitles } from "../../utils/dateUtils";
 import DayCell from "./DayCell";
 
-interface MonthViewProps {
+interface CalendarViewProps {
   currentDate: Date;
   days: (Date | null)[];
   entries: Record<string, { entry_id: string; entry_type: string; time: string }[]>;
@@ -11,7 +11,7 @@ interface MonthViewProps {
   selectedDates: Date[];
 }
 
-const MonthView: React.FC<MonthViewProps> = ({
+const CalendarView: React.FC<CalendarViewProps> = ({
   days,
   entries,
   notes,
@@ -19,9 +19,9 @@ const MonthView: React.FC<MonthViewProps> = ({
   selectedDates
 }) => (
   <div className="calendar-grid">
-    {daysInWeek.map((day) => (
+    {daysOfWeekTitles.map((day) => (
       <div key={day} className="day-header">
-        {day}
+        {day.substring(0,3)}
       </div>
     ))}
     {days.map((date, index) => (
@@ -38,4 +38,4 @@ const MonthView: React.FC<MonthViewProps> = ({
   </div>
 );
 
-export default MonthView;
+export default CalendarView;

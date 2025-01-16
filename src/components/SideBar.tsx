@@ -30,11 +30,11 @@ const Sidebar = () => {
     navigate("/login"); // Redirect to login page after logout
   };
   const menuItems = [
-    { icon: <FiClock size={20} />, title: "Reloj", route: "/clock" },
-    { icon: <FiCalendar size={20} />, title: "Calendario", route: "/calendar" },
-    { icon: <FiEdit size={20} />, title: "Notificar Incidencia", route: "/notifications" },
-    { icon: <FiBriefcase size={20} />, title: "Registro Incidencias", route: "/incidences"},
-    { icon: <FiAlignLeft size={20} />, title: "Listados", route: "/listados" },
+    { icon: <FiClock size={20} />, title: "Reloj", route: "/clock", implemented: true  },
+    { icon: <FiCalendar size={20} />, title: "Calendario", route: "/calendar", implemented: true  },
+    { icon: <FiEdit size={20} />, title: "Notificar Incidencia", route: "/notifications", implemented: false  },
+    { icon: <FiBriefcase size={20} />, title: "Registro Incidencias", route: "/incidences", implemented: false },
+    { icon: <FiAlignLeft size={20} />, title: "Listados", route: "/listados", implemented: false  },
   ];
 
   return (
@@ -43,7 +43,7 @@ const Sidebar = () => {
         <div className="sidebar-content">
           <div className="space-y-4">
             {menuItems.map((item, index) => (
-              <Link to={item.route} key={index} className="menu-item">
+              <Link to={item.route} key={index} className={`menu-item ${!item.implemented ? 'disabled' : ''}`} >
                 {item.icon}
                 <span className="font-medium">{item.title}</span>
               </Link>
@@ -72,11 +72,11 @@ const Sidebar = () => {
             <div>
               <Link to="/login" className="menu-item">
                 <FiUser size={20} />
-                <span className="font-medium">Login</span>
+                <span className="font-medium">Iniciar Sesion</span>
               </Link>
               <Link to="/register" className="menu-item">
                 <FiUser size={20} />
-                <span className="font-medium">Register</span>
+                <span className="font-medium">Registro</span>
               </Link>
             </div>
           )}

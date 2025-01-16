@@ -1,8 +1,7 @@
 import React from "react";
-import { daysInWeek } from "../../utils/dateUtils";
 import DayCell from "./DayCell";
 
-interface WeekViewProps {
+interface ListViewProps {
   currentDate: Date;
   days: (Date | null)[];
   entries: Record<
@@ -17,7 +16,7 @@ interface WeekViewProps {
   selectedDates: Date[];
 }
 
-const WeekView: React.FC<WeekViewProps> = ({
+const ListView: React.FC<ListViewProps> = ({
   currentDate,
   days,
   entries,
@@ -40,4 +39,4 @@ const WeekView: React.FC<WeekViewProps> = ({
   </div>
 );
 
-export default WeekView;
+export default ListView;

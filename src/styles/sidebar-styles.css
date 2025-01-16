@@ -59,6 +59,14 @@
   font-weight: 500;
 }
 
+
+.menu-item.disabled {
+  color: gray; /* Change the color for disabled items */
+  pointer-events: none; /* Disable click interactions */
+  cursor: not-allowed; /* Change the cursor to 'not-allowed' */
+}
+
+
 .sidebar-footer {
   padding: 1rem; /* p-4 */
   border-top: 1px solid rgba(255, 255, 255, 0.1); /* border-white/10 */

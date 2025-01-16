@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
-
-import WeekView from "./WeekView";
-import MonthView from "./MonthView";
+import ListView from "./ListView";
+import CalendarView from "./CalendarView";
 import NoteModal from "./NoteModal";
-import "../../styles/calendar-styles.css";
 import { useFetchEntries } from "../../hooks/useFetchEntries";
 import { useFetchNotes } from "../../hooks/useFetchNotes";
-import { getDaysInMonth } from "../../utils/dateUtils";
+import { getDaysInMonth, getWeekDays, ViewType, ViewTypeEnum } from "../../utils/dateUtils";
+import "../../styles/calendar-styles.css";
+
 
 const Calendar: React.FC = () => {
-  const [viewType, setViewType] = useState<"month" | "week" | "year">("month");
+
+  const [viewType, setViewType] = useState<ViewType>(ViewTypeEnum.Month);
   const [isListView, setIsListView] = useState(false);
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,6 +89,9 @@ const Calendar: React.FC = () => {
         toggleDate(date);
       }
     } else if (event.detail === 2) {
+      
+      
+      console.log('Corregir', date, selectedDates);
       openNoteModal(selectedDates);
     }
   };
@@ -111,25 +116,30 @@ const Calendar: React.FC = () => {
   return (
     <div className="calendar-container">
       <Header
-        viewType={viewType}
-        setViewType={setViewType}
+        // viewType={viewType}
+        // setViewType={setViewType}
         isListView={isListView}
         toggleListView={() => setIsListView(!isListView)}
         currentDate={currentDate}
         navigateMonth={navigateMonth}
       />
+              {isListView ? (selectedDates.length > 0 && (
+          <button className="deselect-all-button" onClick={deselectAll}>
+            Borrar seleccion
+          </button>
+        )):(<></>)}
       {!isListView ? (
-        <MonthView
+        <CalendarView
           currentDate={currentDate}
-          days={getDaysInMonth(currentDate)}
+          days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
           entries={entries}
           notes={notes}
           handleDateClick={handleDateClick}
           selectedDates={selectedDates}
         />
-      ):(<WeekView 
+      ):(<ListView 
         currentDate={currentDate}
-        days={getDaysInMonth(currentDate)}
+        days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
         entries={entries}
         notes={notes}
         handleDateClick={handleDateClick}
@@ -146,11 +156,11 @@ const Calendar: React.FC = () => {
       )}
 
       <div className="calendar-footer">
-        {selectedDates.length > 0 && (
+        {!isListView ? (selectedDates.length > 0 && (
           <button className="deselect-all-button" onClick={deselectAll}>
             Borrar seleccion
           </button>
-        )}
+        )):(<></>)}
       </div>
     </div>
   );
