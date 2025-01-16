@@ -2,28 +2,30 @@ import React from "react";
 import { daysInWeek } from "../../utils/dateUtils";
 import DayCell from "./DayCell";
 
-interface MonthViewProps {
+interface WeekViewProps {
   currentDate: Date;
   days: (Date | null)[];
-  entries: Record<string, { entry_id: string; entry_type: string; time: string }[]>;
+  entries: Record<
+    string,
+    { entry_id: string; entry_type: string; time: string }[]
+  >;
   notes: Record<string, { value: string }>;
-  handleDateClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
+  handleDateClick: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    date: Date
+  ) => void;
   selectedDates: Date[];
 }
 
-const MonthView: React.FC<MonthViewProps> = ({
+const WeekView: React.FC<WeekViewProps> = ({
+  currentDate,
   days,
   entries,
   notes,
   handleDateClick,
-  selectedDates
+  selectedDates,
 }) => (
-  <div className="calendar-grid">
-    {daysInWeek.map((day) => (
-      <div key={day} className="day-header">
-        {day}
-      </div>
-    ))}
+  <div className="calendar-list">
     {days.map((date, index) => (
       <DayCell
         key={index}
@@ -32,10 +34,10 @@ const MonthView: React.FC<MonthViewProps> = ({
         notes={notes}
         entries={entries}
         handleClick={handleDateClick}
-        isListView={false}
+        isListView={true}
       />
     ))}
   </div>
 );
 
-export default MonthView;
+export default WeekView;

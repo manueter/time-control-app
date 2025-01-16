@@ -5,8 +5,8 @@ interface DayCellProps {
   selectedDates: Date[];
   notes: Record<string, { value: string }>;
   entries: Record<string, { entry_id: string; entry_type: string; time: string }[]>;
-  handleClick: (date: Date) => void;
-  handleDoubleClick: (date: Date) => void;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
+  isListView:boolean;
 }
 
 const DayCell: React.FC<DayCellProps> = ({
@@ -15,7 +15,7 @@ const DayCell: React.FC<DayCellProps> = ({
   notes,
   entries,
   handleClick,
-  handleDoubleClick,
+  isListView
 }) => {
   const isSelected = date
     ? selectedDates.some((d) => d.toISOString() === date.toISOString())
@@ -29,21 +29,44 @@ const DayCell: React.FC<DayCellProps> = ({
     ));
 
   return (
-    <div
-      className={`day-cell ${date ? (isSelected ? "selected" : "") : "empty"}`}
-      onClick={() => date && handleClick(date)}
-      onDoubleClick={() => date && handleDoubleClick(date)}
-    >
-      {date && (
-        <>
-          <div className="day-number">{date.getDate()}</div>
-          {notes[date.toISOString()] && (
-            <div className="note-preview">{notes[date.toISOString()].value}</div>
-          )}
-          {entries[date.toISOString()] && renderEntries(entries[date.toISOString()])}
-        </>
-      )}
-    </div>
+
+    date && isListView? (<div
+      className={`day-cell ${date ? (isSelected ? "selected" : ""):("empty")} ${isListView ? "list-cell" : ""}`}
+      >
+        <button 
+        className="button-cell"
+        onClick={(event) => date && handleClick(event, date)}>
+        {date && (
+          <>
+            <div className="day-number">{date.getDate()}</div>
+            {notes[date.toISOString()] && (
+              <div className="note-preview">{notes[date.toISOString()].value}</div>
+            )}
+            {entries[date.toISOString()] && renderEntries(entries[date.toISOString()])}
+          </>
+        )}
+        </button>
+      </div>)
+      :
+    
+    (date && !isListView ? (<div
+      className={`day-cell ${date ? (isSelected ? "selected" : ""):("empty")} ${isListView ? "list-cell" : ""}`}
+      >
+        <button 
+        className="button-cell"
+        onClick={(event) => date && handleClick(event, date)}>
+        {date && (
+          <>
+            <div className="day-number">{date.getDate()}</div>
+            {notes[date.toISOString()] && (
+              <div className="note-preview">{notes[date.toISOString()].value}</div>
+            )}
+            {entries[date.toISOString()] && renderEntries(entries[date.toISOString()])}
+          </>
+        )}
+        </button>
+      </div>):(<></>))
+    
   );
 };
 

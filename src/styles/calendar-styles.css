@@ -8,7 +8,6 @@
   width: 80%;
   height: 90%;
   overflow-y: auto;
-
   overflow-x: auto;
   margin: 0 auto;
   padding: 1rem;
@@ -47,6 +46,14 @@
   scrollbar-width: none;
   /* Hide scrollbar for WebKit browsers (Chrome, Safari, Edge) */
   -ms-overflow-style: none; /* IE and Edge */
+}
+
+.calendar-footer {
+  display: flex;
+  overflow-x: auto;
+  justify-content: center;
+  align-items: bottom;
+  margin-top: 1rem;
 }
 
 .view-options {
@@ -102,7 +109,7 @@
 /* Grid View */
 .calendar-grid {
   display: grid;
-  height: fit-content;
+  margin-bottom: 1rem;
   grid-template-columns: repeat(7, 1fr);
   gap: 0.5rem;
 }
@@ -113,7 +120,13 @@
   padding: 0.5rem;
 }
 
-.day-cell {
+.button-cell{
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.day-cell, .button-cell {
   background-color: transparent;
   min-height: 80px;
   border: 1px solid #999a9e;
@@ -142,6 +155,12 @@
 
 .day-number {
   font-weight: 500;
+}
+
+.calendar-list {
+  display: list-item;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
 .note-preview {
