@@ -1,8 +1,9 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
+import { selectedDatesToString } from "../../utils/dateUtils";
 
 interface NoteModalProps {
-  selectedDate: Date;
+  selectedDates: Date[];
   currentNote: string;
   setCurrentNote: (note: string) => void;
   closeModal: () => void;
@@ -10,7 +11,7 @@ interface NoteModalProps {
 }
 
 const NoteModal: React.FC<NoteModalProps> = ({
-  selectedDate,
+  selectedDates,
   currentNote,
   setCurrentNote,
   closeModal,
@@ -19,7 +20,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
   <div className="modal-overlay">
     <div className="modal">
       <div className="modal-header">
-        <h3>Note for {selectedDate.toLocaleDateString()}</h3>
+        <h3>Nota para: {selectedDatesToString(selectedDates)}</h3>
         <button onClick={closeModal} className="close-modal-button">
           <FaTimes />
         </button>
@@ -30,10 +31,11 @@ const NoteModal: React.FC<NoteModalProps> = ({
           onChange={(e) => setCurrentNote(e.target.value)}
           className="note-textarea"
           rows={4}
-          placeholder="Enter your note here..."
+          placeholder="Ingrese una nota aqui..."
         />
-        <button type="submit" className="save-note-button">
-          Save Note
+        {/** TODO agregar logica para guardar NOTAS */}
+        <button type="submit" className="save-note-button" disabled>
+          Guardar
         </button>
       </form>
     </div>

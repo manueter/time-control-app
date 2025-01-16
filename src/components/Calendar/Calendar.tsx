@@ -17,6 +17,7 @@ const Calendar: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentNote, setCurrentNote] = useState<string>("");
 
@@ -90,8 +91,12 @@ const Calendar: React.FC = () => {
       }
     } else if (event.detail === 2) {
       
+      setSelectedDates((prev) =>
+        prev.some((d) => d.toISOString() === date.toISOString())
+          ? prev
+          : [...prev, date]
+      );
       
-      console.log('Corregir', date, selectedDates);
       openNoteModal(selectedDates);
     }
   };
@@ -100,14 +105,15 @@ const Calendar: React.FC = () => {
   };
 
   const openNoteModal = (dates: Date[]) => {
-    //setSelectedDate(dates[0]);
     setIsModalOpen(true);
-    setCurrentNote(notes[dates[0].toISOString()] || "");
   };
 
   const handleNoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedDate) {
+    if (selectedDates) {
+
+      //TODO agregar logica
+      alert("No se puede guardar notas actualmente.")
       // Save note logic
     }
     setIsModalOpen(false);
@@ -145,9 +151,9 @@ const Calendar: React.FC = () => {
         handleDateClick={handleDateClick}
         selectedDates={selectedDates}
         />)}
-      {isModalOpen && selectedDate && (
+      {isModalOpen && selectedDates && (
         <NoteModal
-          selectedDate={selectedDate}
+          selectedDates={selectedDates}
           currentNote={currentNote}
           setCurrentNote={setCurrentNote}
           closeModal={() => setIsModalOpen(false)}

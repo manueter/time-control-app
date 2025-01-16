@@ -1,5 +1,7 @@
 import { useState, useCallback } from "react";
+import { useAuth } from "../contexts/AuthContext";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface Entry {
   entry_id: string;
   user_uuid: string;
@@ -13,9 +15,18 @@ interface EntriesObject {
   [key: string]: Entry[];
 }
 export const useFetchEntries = () => {
+
+  
   const [entries, setEntries] = useState<{ [key: string]: any }>({});
+  const { user } = useAuth();
 
   const fetchEntries = useCallback(async () => {
+
+    if (!user) {
+      console.log("User is not logged in, skipping fetch entries");
+      return; 
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/entries`);
       if (!response.ok) {
