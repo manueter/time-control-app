@@ -15,10 +15,11 @@ function App() {
         
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="clock" element={<Clock />} />
-          <Route path="calendar" element={<Calendar />} />
-        </Route>
+        <Route path="clock" element={<Clock />} />
+           <Route path="calendar" element={<Calendar />} />
+        {/*<Route element={<ProtectedRoute />}>
+          
+        </Route> */}
       </Routes>
     </div>
   );
