@@ -5,7 +5,7 @@ import CalendarView from "./CalendarView";
 import NoteModal from "./NoteModal";
 import { useFetchEntries } from "../../hooks/useFetchEntries";
 import { useFetchNotes } from "../../hooks/useFetchNotes";
-import { getDaysInMonth, getWeekDays, ViewType, ViewTypeEnum } from "../../utils/dateUtils";
+import { getDatesInRange, getDaysInMonth, getWeekDays, ViewType, ViewTypeEnum } from "../../utils/dateUtils";
 import "../../styles/calendar-styles.css";
 
 
@@ -58,13 +58,7 @@ const Calendar: React.FC = () => {
     );
   };
 
-  const selectDatesInRange = (start: Date, end: Date) => {
-    const newDates: Date[] = [];
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      newDates.push(new Date(d));
-    }
-    return newDates;
-  };
+
   const toggleDate = (date: Date) => {
     const dateStr = date.toISOString();
     setSelectedDates((prev) =>
@@ -82,7 +76,7 @@ const Calendar: React.FC = () => {
         const lastSelected = new Date(selectedDates[selectedDates.length - 1]);
         const start = lastSelected < date ? lastSelected : date;
         const end = lastSelected < date ? date : lastSelected;
-        const newDates = selectDatesInRange(start, end);
+        const newDates = getDatesInRange(start, end);
         setSelectedDates((prev) => [...new Set([...prev, ...newDates])]);
       } else if (ctrlPressed) {
         toggleDate(date);
@@ -97,15 +91,11 @@ const Calendar: React.FC = () => {
           : [...prev, date]
       );
       
-      openNoteModal(selectedDates);
+      setIsModalOpen(true);
     }
   };
   const deselectAll = () => {
     setSelectedDates([]);
-  };
-
-  const openNoteModal = (dates: Date[]) => {
-    setIsModalOpen(true);
   };
 
   const handleNoteSubmit = (e: React.FormEvent) => {

@@ -63,6 +63,14 @@ export const getDaysInMonth = (date: Date): (Date | null)[] => {
   return days;
 };
 
+export const getDatesInRange = (start: Date, end: Date) => {
+  const newDates: Date[] = [];
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    newDates.push(new Date(d));
+  }
+  return newDates;
+};
+
 export const isSameDate = (date1: Date | null, date2: Date | null): boolean => {
   if (!date1 || !date2) return false; // Ensure both dates are defined
   return (
@@ -79,6 +87,7 @@ export const selectedDatesToString = (selectedDates: Date[]): string => {
     })
     .join(" - ");
 };
+
 
 export const dateToString_DDMMYYY = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, "0"); // Pad single digit days

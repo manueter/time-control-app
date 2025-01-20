@@ -9,24 +9,24 @@ interface Entry {
   date: string;
   time: string;
   clock_id: string;
-} 
+}
 
 interface EntriesObject {
   [key: string]: Entry[];
 }
 export const useFetchEntries = () => {
-
-  
   const [entries, setEntries] = useState<{ [key: string]: any }>({});
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>();
+
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchEntries = useCallback(async () => {
-
     if (!user) {
       console.log("User is not logged in, skipping fetch entries");
-      return; 
+      return;
     }
-
+    setIsLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/entries`);
       if (!response.ok) {
@@ -35,8 +35,9 @@ export const useFetchEntries = () => {
       const data = await response.json();
       setEntries(data);
     } catch (error) {
-      console.error(error);
+      setError(error as Error);
     }
+    finally{setIsLoading(false);}
   }, []);
 
   return [entries, fetchEntries] as const;
@@ -60,6 +61,6 @@ export const useFetchEntries = () => {
 //     } catch (error) {
 //       console.error("Failed to fetch entries:", error);
 //     }
-//   }, []); 
+//   }, []);
 //   return [entries, fetchEntries] as const;
 // };
