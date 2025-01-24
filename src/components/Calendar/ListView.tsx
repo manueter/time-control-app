@@ -4,10 +4,6 @@ import DayCell from "./DayCell";
 interface ListViewProps {
   currentDate: Date;
   days: (Date | null)[];
-  entries: Record<
-    string,
-    { entry_id: string; entry_type: string; time: string }[]
-  >;
   notes: Record<string, { value: string }>;
   handleDateClick: (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -19,7 +15,6 @@ interface ListViewProps {
 const ListView: React.FC<ListViewProps> = ({
   currentDate,
   days,
-  entries,
   notes,
   handleDateClick,
   selectedDates,
@@ -31,7 +26,6 @@ const ListView: React.FC<ListViewProps> = ({
         date={date}
         selectedDates={selectedDates}
         notes={notes}
-        entries={entries}
         handleClick={handleDateClick}
         isListView={true}
       />

@@ -4,24 +4,25 @@ import { useState, useEffect } from "react";
 import { EntryType } from "../../types/interfaces";
 
 interface EntriesButtonsProps {
-  onSubmit: (entryValue: string) => void;
+  onSubmit: (entryId: number) => void;
   isLoading:boolean;
   entries?:EntryType[];
 }
 
 const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, entries }) => {
 
-  // const [entries, setEntries] = useState<Entry[]>([]);
-  // const [loading, setLoading] = useState(true);
-  const [selectedEntry, setSelectedEntry] = useState<string | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<EntryType | null>(null);
   
-  const handleEntrySelect = (value: string) => {
-    setSelectedEntry(value);
+  const handleEntrySelect = (value:string) => {
+    const entry = entries?.find((entry) => entry.value === value); // Find the selected EntryType
+    if (entry) {
+      setSelectedEntry(entry);
+    }
   };
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (selectedEntry) {
-      onSubmit(selectedEntry); 
+      onSubmit(selectedEntry.id); 
     } else {
       alert("Por favor selecciona un evento.");
     }
@@ -31,12 +32,11 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, ent
     return <p>No hay entradas disponibles.</p>;
   }
 
-  //TODO dont show option if entries is undefined or null
   return (
     <form onSubmit={handleSubmit}>
       <select
         className="entryDropdown"
-        value={selectedEntry || ""}
+        value={selectedEntry?.value?? ""}
         onChange={(e) => handleEntrySelect(e.target.value)}
         disabled={isLoading}
         required
@@ -45,7 +45,7 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, ent
           Elija un tipo de marca
         </option>
         {entries?.map((entry:EntryType) => (
-          <option key={entry.value} value={entry.value}>
+          <option key={entry.id} value={entry.value}>
             {entry.description}
           </option>
         ))}
@@ -55,42 +55,6 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, ent
       </button>
     </form>
   );
-  // return (
-  //   <div>
-  //     <div className="entryWrapper">
-  //       <form onSubmit={handleSubmit}>
-  //         <select
-  //           id="entry"
-  //           className="entryDropdown"
-  //           value={selectedEntry || ""}
-  //           onChange={(e) => handleEntrySelect(e.target.value)}
-  //           disabled={isLoading}
-  //           required
-  //         >
-  //           <option value="" disabled className="dropdownOption">
-  //             Selecciona una entrada
-  //           </option>
-  //           {entries.map((entry) => (
-  //             <option
-  //               key={entry.value}
-  //               value={entry.value}
-  //               className="dropdownOption"
-  //             >
-  //               {entry.description}
-  //             </option>
-  //           ))}
-  //         </select>
-  //         {!isLoading && (
-  //       <button type="submit">Registrar Marca</button>
-  //     )}
-
-  //     {isLoading && (
-  //       <div className="loading-indicator">Cargando...</div>
-  //     )}
-  //       </form>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default EntriesButtons;

@@ -86,7 +86,7 @@
     transform-origin: top;
     background-color: #2d3748;
     border-radius: 0.25rem;
-    transition: transform 0.2s ease;
+    transition: transform 0.5s ease-in-out;
   }
   
   .hour-hand {

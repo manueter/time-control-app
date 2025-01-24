@@ -1,40 +1,54 @@
-import React, { createContext, useState, useContext } from "react";
-
-interface User {
-  user_uuid: string;
-  token:string;
-}
+import React, { createContext, useState, useContext, useCallback } from "react";
+import { User } from "../types/interfaces";
 
 interface AuthContextProps {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   login: (userData: User) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   
-  const login = (userData: User) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData)); // Persist user data
-  };
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      console.error("Error reading from localStorage:", error);
+      return null;
+    }
+  });
 
-  const logout = () => {
+  const login = useCallback((userData: User) => {
+    setUser(userData);
+    try {
+      localStorage.setItem("user", JSON.stringify(userData));
+    } catch (error) {
+      console.error("Error writing to localStorage:", error);
+    }
+  }, []);
+
+  const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem("user");
-  };
+    try {
+      localStorage.removeItem("user");
+    } catch (error) {
+      console.error("Error removing from localStorage:", error);
+    }
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);

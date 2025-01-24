@@ -1,21 +1,23 @@
 import { useEffect } from "react";
-import { useFetchEntriesTypes } from "../../hooks/useFetchClockProgram";
+import { useFetchServerTime, useFetchEntriesTypes } from "../../hooks/useFetchClockProgram";
 import ClockDisplay from "./ClockDisplay";
 import ClockWise from "./ClockWise";
 import EntriesButtons from "./EntriesButtons";
 
 interface ClockCardProps {
-    isLoading:boolean;
+    isLoading?:boolean;
     showCard:boolean;
-    handleEntrySubmit: (entryValue: string) => void;
+    handleEntrySubmit: (entryId: number) => void;
 }
-const ClockCard: React.FC<ClockCardProps>  = ({isLoading, showCard, handleEntrySubmit}) => {
+const ClockCard: React.FC<ClockCardProps>  = ({ showCard, handleEntrySubmit}) => {
 
-  const [entries, fetchEntries] = useFetchEntriesTypes();
+  const {entriesTypes, isLoading, error, fetchEntriesTypes} = useFetchEntriesTypes();
+  const {serverTime, fetchServerTime } = useFetchServerTime();
 
   useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);
+    fetchServerTime();
+    fetchEntriesTypes();
+  }, [fetchServerTime, fetchEntriesTypes]);
 
   return <div className={`card ${showCard ? "show" : ""}`}>
   <h1>
@@ -25,12 +27,11 @@ const ClockCard: React.FC<ClockCardProps>  = ({isLoading, showCard, handleEntryS
       year: "numeric",
     }).format(new Date())}
   </h1>
-  <ClockWise />
-  <ClockDisplay showFormatToggle={true} />
-  <EntriesButtons onSubmit={handleEntrySubmit} isLoading={isLoading} entries={entries} />
+  <ClockWise serverTime={serverTime} />
+  <ClockDisplay serverTime={serverTime} showFormatToggle={true} />
+  <EntriesButtons onSubmit={handleEntrySubmit} isLoading={isLoading} entries={entriesTypes} />
 </div>;
   
-};
-
+};  
 
 export default ClockCard;

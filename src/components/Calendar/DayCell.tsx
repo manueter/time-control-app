@@ -5,7 +5,6 @@ interface DayCellProps {
   date: Date | null;
   selectedDates: Date[];
   notes: Record<string, { value: string }>;
-  entries: Record<string, { entry_id: string; entry_type: string; time: string }[]>;
   handleClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
   isListView: boolean;
 }
@@ -14,7 +13,6 @@ const DayCell: React.FC<DayCellProps> = ({
   date,
   selectedDates,
   notes,
-  entries,
   handleClick,
   isListView
 }) => {
@@ -23,12 +21,12 @@ const DayCell: React.FC<DayCellProps> = ({
     : false;
 
 
-  const renderEntries = (entriesForDate: { entry_id: string; entry_type: string; time: string }[]) =>
-    entriesForDate.map((entry) => (
-      <div key={entry.entry_id} className="entry-preview">
-        {entry.entry_type} at {entry.time}
-      </div>
-    ));
+  // const renderEntries = (entriesForDate: { entry_id: string; entry_type: string; time: string }[]) =>
+  //   entriesForDate.map((entry) => (
+  //     <div key={entry.entry_id} className="entry-preview">
+  //       {entry.entry_type} at {entry.time}
+  //     </div>
+  //   ));
 
   const cellClassName = (): string => {
 
@@ -81,7 +79,7 @@ const DayCell: React.FC<DayCellProps> = ({
               {notes[date.toISOString()] && (
                 <div className="note-preview">{notes[date.toISOString()].value}</div>
               )}
-              {entries[date.toISOString()] && renderEntries(entries[date.toISOString()])}
+              {/* {entries[date.toISOString()] && renderEntries(entries[date.toISOString()])} */}
             </>
           )}
         </button>

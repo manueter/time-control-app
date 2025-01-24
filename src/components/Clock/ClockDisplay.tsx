@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import ToggleButton from "../ToggleButton";
 
 interface ClockDisplayProps {
+  serverTime: Date | null;
   showFormatToggle: boolean;
 }
 
-const ClockDisplay: React.FC<ClockDisplayProps> = ({ showFormatToggle }) => {
-  const [time, setTime] = useState(new Date());
+const ClockDisplay: React.FC<ClockDisplayProps> = ({ serverTime, showFormatToggle }) => {
+  const [time, setTime] = useState(serverTime || new Date()); 
   const [is24Hour, setIs24Hour] = useState(false);
 
   useEffect(() => {
@@ -39,11 +40,7 @@ const ClockDisplay: React.FC<ClockDisplayProps> = ({ showFormatToggle }) => {
   return (
     <div className="clock-display">
       {showFormatToggle ? (
-        <ToggleButton
-          label_a="24 Hs"
-          label_b="AM/PM"
-          onToggle={handleToggle}
-        />
+        <ToggleButton label_a="24 Hs" label_b="AM/PM" onToggle={handleToggle} />
       ) : (
         <></>
       )}

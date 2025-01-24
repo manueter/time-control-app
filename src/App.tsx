@@ -12,11 +12,11 @@ function App() {
       <SideBar />
       <Routes>
         <Route path="/" element={<Login />} />
-        
+
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="clock" element={<Clock />} />
-           <Route path="calendar" element={<Calendar />} />
+        <Route path="calendar" element={<Calendar />} />
         {/*<Route element={<ProtectedRoute />}>
           
         </Route> */}

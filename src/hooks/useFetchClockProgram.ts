@@ -1,57 +1,43 @@
-import { useState, useCallback } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { Clock, ClockProgram, EntryType } from "../types/interfaces";
+import { EntryType } from "../types/interfaces";
+import { useFetch } from "./useFetch";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const DEFAULT_CLOCK_ID = import.meta.env.VITE_DEFAULT_CLOCK_ID;
+
+export const useFetchServerTime = () => {
+  
+  const { data: serverTime, isLoading, error, fetchData: fetchServerTime } = useFetch<{ serverTime: string }>(
+    `${import.meta.env.VITE_API_BASE_URL}/clocks/server-time`
+  );
+
+  return {
+    serverTime: serverTime ? new Date(serverTime.serverTime) : null,
+    isLoading,
+    error,
+    fetchServerTime,
+  };
+};
 
 export const useFetchEntriesTypes = () => {
-  
-  const [entries, setEntries] = useState<EntryType[]>();
-  
-  const fetchEntries = useCallback(async()=>{
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/clocks`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const data = await response.json();
-      console.log(data.clocks);
-      setEntries(data.clocks[0]?.entries || []);
-      //TODO: Change to get with clock_id the correspongin clock
-    } catch (error) {
-      console.error("Error fetching entries:", error);
-    }
-
-  }, []);
-
-  return [entries, fetchEntries] as const;
+  const { data: entriesTypes, isLoading, error, fetchData: fetchEntriesTypes } = useFetch<EntryType[]>(
+    `${API_BASE_URL}/clocks/entry-types`
+  );
+  return { entriesTypes: entriesTypes || [], isLoading, error, fetchEntriesTypes };
 };
 
-export const useFetchClockProgram = async(clock_id?:number) => {
-  const [clockProgram, setClockProgram] = useState<ClockProgram>();
-  const [error, setError] = useState<Error | null>(null);
+// export const useFetchEntriesTypesForAClock = (clock_id:number) => {
 
-  const fetchClockProgram = useCallback(async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/clocks`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch clock programs");
-      }
-      const data = await response.json();
+//   const { data: entriesTypes, isLoading, error, fetchData: fetchEntriesTypes } = useFetch<EntryType[]>(
+//     `${API_BASE_URL}/clocks/${clock_id}/entry-types`
+//   );
+//   return { entriesTypes: entriesTypes || [], isLoading, error, fetchEntriesTypes };
+// };
 
-      console.log(data);
-      const clock = data.filter(
-        (d: Clock) => d.clock_id === DEFAULT_CLOCK_ID
-      ) as Clock;
-
-      setClockProgram(clock.program);
-      
-    } catch (error) {
-      setError(error as Error)
-      //console.error(error);
-    }
-  }, []);
-
-  return [clockProgram, fetchClockProgram] as const;
-};
+// export const useFetchClockProgram = (clock_id:number) => {
+ 
+//   const { data: clocks, isLoading, error, fetchData: fetchClocks } = useFetch<Clock[]>(
+//     `${API_BASE_URL}/clocks`
+//   );
+//   const clockProgram = clocks?.find((clock) => clock.clock_id === clock_id)?.program || null;
+//   return { clockProgram, isLoading, error, fetchClocks };
+// };

@@ -2,7 +2,7 @@ import "../styles/form-styles.css"
 import { useEffect, useState } from "react";
 import { AiOutlineLock } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
-import { Link, useOutlet } from "react-router";
+import { Link } from "react-router";
 
 const Register = () => {
     const [showCard, setShowCard] = useState(false);

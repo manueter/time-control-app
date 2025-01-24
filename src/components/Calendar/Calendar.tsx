@@ -25,7 +25,7 @@ const Calendar: React.FC = () => {
   const [ctrlPressed, setCtrlPressed] = useState(false);
 
   const [notes, fetchNotes] = useFetchNotes();
-  const [entries, fetchEntries] = useFetchEntries();
+  const {entries, fetchEntries} = useFetchEntries();
 
   useEffect(() => {
     fetchEntries();
@@ -128,7 +128,6 @@ const Calendar: React.FC = () => {
         <CalendarView
           currentDate={currentDate}
           days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
-          entries={entries}
           notes={notes}
           handleDateClick={handleDateClick}
           selectedDates={selectedDates}
@@ -136,7 +135,6 @@ const Calendar: React.FC = () => {
       ):(<ListView 
         currentDate={currentDate}
         days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
-        entries={entries}
         notes={notes}
         handleDateClick={handleDateClick}
         selectedDates={selectedDates}

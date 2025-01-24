@@ -1,6 +1,7 @@
 {
   "name": "time-control-app",
   "private": true,
+  "homepage": "https://manueter.github.io/time-control-app",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

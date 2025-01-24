@@ -5,7 +5,6 @@ import DayCell from "./DayCell";
 interface CalendarViewProps {
   currentDate: Date;
   days: (Date | null)[];
-  entries: Record<string, { entry_id: string; entry_type: string; time: string }[]>;
   notes: Record<string, { value: string }>;
   handleDateClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
   selectedDates: Date[];
@@ -13,7 +12,6 @@ interface CalendarViewProps {
 
 const CalendarView: React.FC<CalendarViewProps> = ({
   days,
-  entries,
   notes,
   handleDateClick,
   selectedDates
@@ -30,7 +28,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({
         date={date}
         selectedDates={selectedDates}
         notes={notes}
-        entries={entries}
         handleClick={handleDateClick}
         isListView={false}
       />
