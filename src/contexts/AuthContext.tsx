@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback } from "react";
+import React, { createContext, useState, useContext, useCallback, useMemo } from "react";
 import { User } from "../types/interfaces";
 
 interface AuthContextProps {
@@ -42,8 +42,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+  const contextValue = useMemo(
+    () => ({ user, setUser, login, logout }),
+    [user, setUser, login, logout]
+  );
+
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

@@ -9,10 +9,9 @@ export const useSubmitEntry = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
 
-  // Using usePost to handle POST requests
   const { postData, isLoading, error } = usePost(
     `${API_BASE_URL}/entries/add`,
-    true // `requiresAuth` ensures token is handled
+    true // `requiresAuth` 
   );
 
   const submitEntry = async (entryId: number) => {
