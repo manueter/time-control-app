@@ -82,12 +82,14 @@ const DayCell: React.FC<DayCellProps> = ({
             )}
             <div className="entry-preview">
             {entries.map((entry) => (
-                <div key={entry.entry_id} className="entry">
+                <div key={`${entry.entry_id}-${entry.time}`} className="entry">
                   {entry.entry_type} *  
                   {entry.time.substring(0,8)}
                 </div>
               ))}
             </div>
+
+            
           </>
         )}
       </button>

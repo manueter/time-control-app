@@ -168,6 +168,7 @@ const Calendar: React.FC = () => {
       {isModalOpen && selectedDates && (
         <NoteModal
           selectedDates={selectedDates}
+          entries={entries}
           currentNote={currentNote}
           setCurrentNote={setCurrentNote}
           closeModal={() => setIsModalOpen(false)}
