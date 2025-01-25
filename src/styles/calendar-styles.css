@@ -130,9 +130,16 @@
   background-color: transparent;
   border-radius: 8px;
   opacity:100%;
-  min-height: 80px;
+  height: 80px;
+  
+overflow-y: auto; /* Enable scrolling for overflow content */
+  
+scrollbar-width: thin; /* Firefox */
+scrollbar-color: #888 #333; /* Firefox scrollbar colors */  
   border: 1px solid #999a9e;
   cursor: pointer;
+
+  justify-content: space-between; /* Push items apart vertically */
   transition: background-color 0.3s;
 }
 
@@ -285,8 +292,34 @@
 .save-note-button:hover {
   background-color: #2563eb;
 }
+/* .entry-preview {
+  font-size: 0.8em;
+  color: #c6b7b7;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+} */
+
 .entry-preview {
   font-size: 0.8em;
-  color: #555;
-  margin-top: 4px;
+  color: #c6b7b7;
+  margin-top: 8px;
+  display: flex;
+  
+  flex-direction: column;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #888 #333; /* Firefox scrollbar colors */
+  gap: 4px;
+}
+
+.entry {
+  background-color: #f3f4f6;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #1f2937;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

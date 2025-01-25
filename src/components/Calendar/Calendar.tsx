@@ -7,6 +7,7 @@ import { useFetchEntries } from "../../hooks/useFetchEntries";
 import { useFetchNotes } from "../../hooks/useFetchNotes";
 import { getDatesInRange, getDaysInMonth, getWeekDays, ViewType, ViewTypeEnum } from "../../utils/dateUtils";
 import "../../styles/calendar-styles.css";
+import { Entry } from "../../types/interfaces";
 
 
 const Calendar: React.FC = () => {
@@ -18,19 +19,42 @@ const Calendar: React.FC = () => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [currentNote, setCurrentNote] = useState<string>("");
+  const [currentNote, setCurrentNote] = useState<string>(""); 
 
   const [shiftPressed, setShiftPressed] = useState(false);
   const [ctrlPressed, setCtrlPressed] = useState(false);
 
   const [notes, fetchNotes] = useFetchNotes();
-  const {entries, fetchEntries} = useFetchEntries();
+  const { fetchEntries} = useFetchEntries();
+  const [entries, setEntries] = useState<Entry[]>([]);
+
+  const days = viewType === ViewTypeEnum.Month
+  ? getDaysInMonth(currentDate)
+  : getWeekDays(currentDate);
+
+  const visibleStartDate = days.find((date) => date !== null)?.toISOString().split("T")[0];
+  const visibleEndDate = [...days].reverse().find((date) => date !== null)?.toISOString().split("T")[0];
+
+  // useEffect(() => {
+  //   if (visibleStartDate && visibleEndDate) {
+  //     setEntries(fetchEntries(visibleStartDate, visibleEndDate));
+  //   }
+  // }, [visibleStartDate, visibleEndDate, fetchEntries]);
 
   useEffect(() => {
-    fetchEntries();
-    fetchNotes();
-  }, [fetchEntries, fetchNotes]);
+    const fetchVisibleEntries = async () => {
+      if (visibleStartDate && visibleEndDate) {
+        try {
+          const fetchedEntries = await fetchEntries(visibleStartDate, visibleEndDate); // Await the Promise
+          setEntries(fetchedEntries); // Update state with resolved data
+        } catch (error) {
+          console.error("Error fetching entries:", error);
+        }
+      }
+    };
+  
+    fetchVisibleEntries(); // Call the async function
+  }, [visibleStartDate, visibleEndDate, fetchEntries]);
 
   //for KEY PRESSED
   useEffect(() => {
@@ -129,6 +153,7 @@ const Calendar: React.FC = () => {
           currentDate={currentDate}
           days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
           notes={notes}
+          entries={entries}
           handleDateClick={handleDateClick}
           selectedDates={selectedDates}
         />
@@ -136,6 +161,7 @@ const Calendar: React.FC = () => {
         currentDate={currentDate}
         days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
         notes={notes}
+        entries={entries}
         handleDateClick={handleDateClick}
         selectedDates={selectedDates}
         />)}

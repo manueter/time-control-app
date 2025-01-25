@@ -15,15 +15,13 @@ const ClockPage = () => {
 
   const handleEntrySubmit = async (entryId: number) => {
     if (!user?.token) {
-      alert("You must be logged in to submit an entry.");
+      alert("Tienes que estar para registrar una marca.");
       return;
     }
-    console.log(entryId);
     try {
       await submitEntry(entryId);
     } catch (error) {
-      console.error("Error submitting entry:", error);
-      alert("Failed to submit entry.");
+      alert("Error al registrar marca.");
     }
   };
   return (

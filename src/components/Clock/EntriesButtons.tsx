@@ -1,6 +1,6 @@
 import "../../styles/form-styles.css";
 import "../../styles/clock-styles.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { EntryType } from "../../types/interfaces";
 
 interface EntriesButtonsProps {
