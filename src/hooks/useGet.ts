@@ -18,44 +18,51 @@ export const useGet = <T>(
   const [error, setError] = useState<Error | null>(null);
   const { user, setUser } = useAuth();
 
+  // Helper to build headers
+  const buildHeaders = (token?: string): Record<string, string> => {
+    const headers: Record<string, string> = {};
+    if (requiresAuth && token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+    return headers;
+  };
+
+  // Helper to make fetch requests
+  const makeRequest = async (headers: Record<string, string>): Promise<Response> => {
+    return await fetch(url, { method: "GET", headers });
+  };
+
+  // Handle token refresh
+  const handleTokenRefresh = async (): Promise<string | null> => {
+    const newToken = await refreshToken(user?.token ?? "");
+    if (!newToken) throw new Error("Failed to refresh token. Please log in again.");
+    if (!user?.uuid) throw new Error("Failed to update user: Missing user_uuid.");
+
+    setUser({ ...user, token: newToken });
+    return newToken;
+  };
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const headers: Record<string, string> =
-        requiresAuth && user?.token
-          ? { Authorization: `Bearer ${user.token}` }
-          : {};
-
-      const response = await fetch(url, { method: "GET", headers });
+      const headers = buildHeaders(user?.token);
+      let response = await makeRequest(headers);
 
       if (requiresAuth && response.status === 401) {
-        // Handle token expiration
-        const newToken = await refreshToken(user?.token ?? "");
+        const newToken = await handleTokenRefresh();
         if (newToken) {
-          //if user
-          if (user?.user_uuid) {
-            setUser({ ...user, token: newToken });
-            const retryResponse = await fetch(url, {
-              method: "GET",
-              headers: { Authorization: `Bearer ${newToken}` },
-            });
-
-            if (!retryResponse.ok)
-              throw new Error(`Retry failed: ${retryResponse.statusText}`);
-            setData(await retryResponse.json());
-          } else {
-            throw new Error("Failed to refresh token. Please log in again.");
-          }
-        } else {
-          throw new Error(`Failed to update user: Missing user_uuid.`);
+          response = await makeRequest(buildHeaders(newToken));
         }
-      } else if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      } else {
-        setData(await response.json());
       }
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const responseData = await response.json();
+      setData(responseData);
     } catch (err) {
       setError(err as Error);
     } finally {

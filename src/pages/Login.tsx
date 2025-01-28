@@ -4,60 +4,70 @@ import { AiOutlineLock } from "react-icons/ai";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-
+import { usePost } from "../hooks/usePost";
+import Badge from "../components/Badge";
+ 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Login = () => {
   const [showCard, setShowCard] = useState(false);
-  const { login } = useAuth();
-  const [emailOrUsername, setEmailOrUsername] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const { user, login } = useAuth();
+  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [password, setPassword] = useState("");
+ 
+
+  const { postData, isLoading, error } = usePost(
+    `${API_BASE_URL}/auth`,
+    false 
+  );
+
   useEffect(() => {
-    const timer = setTimeout(() => setShowCard(true), 70); // Show after 50ms
+    if (user) {
+      navigate("/clock");
+    }
+    const timer = setTimeout(() => setShowCard(true), 70); 
     return () => clearTimeout(timer);
   }, []);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    if (!emailOrUsername || !password) {
+      alert("Por favor, complete todos los campos.");
+      return;
+    }
     try {
-      const isEmail = emailOrUsername.includes("@");
-      const body = isEmail
-        ? { email: emailOrUsername }
-        : { username: emailOrUsername };
+      const email = emailOrUsername.includes("@")? emailOrUsername : emailOrUsername.concat('@mail.com');
+      const payload = {
+        email,
+        password,
+      };
+      const data = await postData(payload);
+      if (data) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user_uuid", data.uuid);
+        alert("Sesión iniciada con éxito.");
 
-      // const response = await fetch(`${API_BASE_URL}/login`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ username, password }),
-      //   //body: JSON.stringify({ email, password }),
-      // });
-      const response = await fetch(`${API_BASE_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...body, password }), // Add password to the request body
-      });
+        login({ uuid: data.uuid, token: data.token });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to log in");
+        navigate("/clock");
       }
-
-      const data = await response.json();
-      login({ user_uuid: data.user_uuid, token: data.token });
-      alert("Sesión iniciada!");
-      navigate("/clock"); // Redirect to the Clock page
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error al iniciar sesión:", error);
         alert(error.message || "No se pudo iniciar sesión.");
       }
     }
   };
 
+  const badgeContent = [    
+    '<strong>User:</strong> test',
+    '<strong>Password:</strong> test',
+  ]
+
   return (
+    <>
+    <Badge content={badgeContent} />
     <div className={`card ${showCard ? "show" : ""}`}>
       <h1>Iniciar sesión</h1>
       <form onSubmit={handleLogin} className="flex">
@@ -87,13 +97,19 @@ const Login = () => {
           </label>
         </div>
         <div className="wrapper">
-          <button type="submit">Iniciar sesión</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Cargando..." : "Iniciar sesión"}
+          </button>
           <div className="wrapper-center">
             <Link to="" className="link">
               Olvidé mi contraseña{" "}
             </Link>
           </div>
         </div>
+        <div className="wrapper-center">
+        {error && <div className="error">{error.message}</div>}
+        </div>
+
         <div>
           ¿No tienes una cuenta?{" "}
           <Link to="/Register" className="link">
@@ -102,6 +118,7 @@ const Login = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 export default Login;

@@ -1,7 +1,7 @@
-import "../../styles/form-styles.css";
-import "../../styles/clock-styles.css";
 import { useState } from "react";
 import { EntryType } from "../../types/interfaces";
+import "../../styles/form-styles.css";
+import "../../styles/clock-styles.css";
 
 interface EntriesButtonsProps {
   onSubmit: (entryId: number) => void;
@@ -13,8 +13,10 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, ent
 
   const [selectedEntry, setSelectedEntry] = useState<EntryType | null>(null);
   
+  if(isLoading) return <></>
+
   const handleEntrySelect = (value:string) => {
-    const entry = entries?.find((entry) => entry.value === value); // Find the selected EntryType
+    const entry = entries?.find((entry) => entry.value === value); 
     if (entry) {
       setSelectedEntry(entry);
     }

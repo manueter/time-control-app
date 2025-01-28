@@ -29,7 +29,6 @@ const Note: React.FC<NoteProps> = ({
 }) => {
   const [noteValue, setNoteValue] = useState(currentNote?.value ?? "");
 
-  // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNoteValue(e.target.value);
   };

@@ -1,4 +1,3 @@
-// src/utils/apiservice.ts
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const refreshToken = async (
@@ -12,13 +11,8 @@ export const refreshToken = async (
       },
       body: JSON.stringify({ token: oldToken }),
     });
-
     if (response.ok) {
-      const { newToken } = await response.json();
-
-      // const data = await response.json();
-      // return data.token;
-
+      const { token: newToken } = await response.json();
       return newToken;
     } else {
       throw new Error("Failed to refresh token");

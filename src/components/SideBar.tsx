@@ -18,7 +18,7 @@ import { Link, useNavigate } from "react-router";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useAuth(); // Get user and logout function from context
+  const { user, logout } = useAuth(); 
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -27,7 +27,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login"); 
   };
   const menuItems = [
     { icon: <FiClock size={20} />, title: "Reloj", route: "/clock", implemented: true  },
@@ -58,21 +58,22 @@ const Sidebar = () => {
                 <FiUser size={20} />
                 <span className="font-medium">Perfil</span>
               </Link>
-              <button className="menu-item">
-                <FiSettings size={20} />
-                <span className="font-medium">Settings</span>
-              </button>
+
+              <Link to="/settingsPage" className="menu-item">
+              <FiSettings size={20} />
+                <span className="font-medium">Ajustes</span>
+              </Link>
               
               <button className="menu-item" onClick={handleLogout}>
                 <FiLogOut size={20} />
-                <span className="font-medium">Logout</span>
+                <span className="font-medium">Cerrar Sesión</span>
               </button>
             </div>
           ) : (
             <div>
               <Link to="/login" className="menu-item">
                 <FiUser size={20} />
-                <span className="font-medium">Iniciar Sesion</span>
+                <span className="font-medium">Iniciar Sesión</span>
               </Link>
               <Link to="/register" className="menu-item">
                 <FiUser size={20} />

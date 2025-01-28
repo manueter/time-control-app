@@ -11,7 +11,7 @@ interface ClockCardProps {
 }
 const ClockCard: React.FC<ClockCardProps>  = ({ showCard, handleEntrySubmit}) => {
 
-  const {entriesTypes, isLoading, error, fetchEntriesTypes} = useFetchEntriesTypes();
+  const {entriesTypes, isLoading, fetchEntriesTypes} = useFetchEntriesTypes();
   const {serverTime, fetchServerTime } = useFetchServerTime();
 
   useEffect(() => {

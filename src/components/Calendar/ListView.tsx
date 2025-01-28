@@ -4,9 +4,9 @@ import { Entry } from "../../types/interfaces";
 import { groupEntriesByDate } from "../../utils/entryUtils";
 
 interface ListViewProps {
-  currentDate: Date;
+  // currentDate: Date;
   days: (Date | null)[];
-  notes: Record<string, { value: string }>;
+  notes?: Record<string, { value: string }>;
   entries:Entry[];
   handleDateClick: (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -16,7 +16,6 @@ interface ListViewProps {
 }
 
 const ListView: React.FC<ListViewProps> = ({
-  currentDate,
   days,
   notes,
   entries,

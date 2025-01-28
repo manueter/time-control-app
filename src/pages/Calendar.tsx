@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import ListView from "./ListView";
-import CalendarView from "./CalendarView";
-import NoteModal from "./NoteModal";
-import { useFetchEntries } from "../../hooks/useFetchEntries";
-import { useFetchNotes } from "../../hooks/useFetchNotes";
-import { getDatesInRange, getDaysInMonth, getWeekDays, ViewType, ViewTypeEnum } from "../../utils/dateUtils";
-import "../../styles/calendar-styles.css";
-import { Entry } from "../../types/interfaces";
+import Header from "../components/Calendar/Header";
+import ListView from "../components/Calendar/ListView";
+import CalendarView from "../components/Calendar/CalendarView";
+import NoteModal from "../components/Calendar/NoteModal";
+import { useFetchEntries } from "../hooks/useFetchEntries";
+import { getDatesInRange, getDaysInMonth, getWeekDays, ViewTypeEnum } from "../utils/dateUtils";
+import { Entry } from "../types/interfaces";
+import "../styles/calendar-styles.css";
 
 
 const Calendar: React.FC = () => {
 
-  const [viewType, setViewType] = useState<ViewType>(ViewTypeEnum.Month);
+  const viewType = ViewTypeEnum.Month;
   const [isListView, setIsListView] = useState(false);
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -24,7 +23,7 @@ const Calendar: React.FC = () => {
   const [shiftPressed, setShiftPressed] = useState(false);
   const [ctrlPressed, setCtrlPressed] = useState(false);
 
-  const [notes, fetchNotes] = useFetchNotes();
+  // const [notes, fetchNotes] = useFetchNotes();
   const { fetchEntries} = useFetchEntries();
   const [entries, setEntries] = useState<Entry[]>([]);
 
@@ -34,12 +33,6 @@ const Calendar: React.FC = () => {
 
   const visibleStartDate = days.find((date) => date !== null)?.toISOString().split("T")[0];
   const visibleEndDate = [...days].reverse().find((date) => date !== null)?.toISOString().split("T")[0];
-
-  // useEffect(() => {
-  //   if (visibleStartDate && visibleEndDate) {
-  //     setEntries(fetchEntries(visibleStartDate, visibleEndDate));
-  //   }
-  // }, [visibleStartDate, visibleEndDate, fetchEntries]);
 
   useEffect(() => {
     const fetchVisibleEntries = async () => {
@@ -125,10 +118,7 @@ const Calendar: React.FC = () => {
   const handleNoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedDates) {
-
-      //TODO agregar logica
       alert("No se puede guardar notas actualmente.")
-      // Save note logic
     }
     setIsModalOpen(false);
   };
@@ -136,8 +126,6 @@ const Calendar: React.FC = () => {
   return (
     <div className="calendar-container">
       <Header
-        // viewType={viewType}
-        // setViewType={setViewType}
         isListView={isListView}
         toggleListView={() => setIsListView(!isListView)}
         currentDate={currentDate}
@@ -150,17 +138,15 @@ const Calendar: React.FC = () => {
         )):(<></>)}
       {!isListView ? (
         <CalendarView
-          currentDate={currentDate}
+          // currentDate={currentDate}
           days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
-          notes={notes}
           entries={entries}
           handleDateClick={handleDateClick}
           selectedDates={selectedDates}
         />
       ):(<ListView 
-        currentDate={currentDate}
+        // currentDate={currentDate}
         days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
-        notes={notes}
         entries={entries}
         handleDateClick={handleDateClick}
         selectedDates={selectedDates}

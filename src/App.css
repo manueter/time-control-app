@@ -2,3 +2,14 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.error {
+  border-radius: 8px;
+  color: red;
+  background-color: rgb(151, 128, 128);
+  
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 4px 8px 8px 8px;
+}

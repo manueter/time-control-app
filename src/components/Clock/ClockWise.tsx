@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "../../styles/clockwise-styles.css"; // Import the CSS file
+import "../../styles/clockwise-styles.css"; 
 
 interface ClockWiseProps {
-  serverTime: Date | null; // Add serverTime prop
+  serverTime: Date | null; 
 }
 
 const ClockWise: React.FC<ClockWiseProps>  = ({serverTime}) => {
@@ -16,12 +16,12 @@ const ClockWise: React.FC<ClockWiseProps>  = ({serverTime}) => {
     return () => clearInterval(timer);
   }, []);
 
-  const hours = time.getHours(); // 0 to 23
-  const minutes = time.getMinutes(); // 0 to 59
-  const seconds = time.getSeconds(); // 0 to 59
-  const hourDegrees = ((hours % 12) * 30 + minutes / 2) % 360 + 180; // Hour hand
-  const minuteDegrees = (minutes * 6 + seconds / 10) % 360 + 180; // Minute hand
-  const secondDegrees = (seconds * 6) % 360 + 180; // Second hand (continuous rotation)
+  const hours = time.getHours(); 
+  const minutes = time.getMinutes();
+  const seconds = time.getSeconds();
+  const hourDegrees = ((hours % 12) * 30 + minutes / 2) % 360 + 180; 
+  const minuteDegrees = (minutes * 6 + seconds / 10) % 360 + 180; 
+  const secondDegrees = (seconds * 6) % 360 + 180; 
 
   return (
     <div className="clock-face">
@@ -46,22 +46,16 @@ const ClockWise: React.FC<ClockWiseProps>  = ({serverTime}) => {
           </div>
         ))}
 
-        {/* Clock Center */}
         <div className="clock-center"></div>
 
-        {/* Hour Hand */}
         <div
           className="clock-hand hour-hand"
           style={{ transform: `rotate(${hourDegrees}deg)` }}
         ></div>
-
-        {/* Minute Hand */}
         <div
           className="clock-hand minute-hand"
           style={{ transform: `rotate(${minuteDegrees}deg)` }}
         ></div>
-
-        {/* Second Hand */}
         <div
           className="clock-hand second-hand"
           style={{ transform: `rotate(${secondDegrees}deg)` }}

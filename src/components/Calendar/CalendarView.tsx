@@ -5,9 +5,9 @@ import { Entry } from "../../types/interfaces";
 import { groupEntriesByDate } from "../../utils/entryUtils";
 
 interface CalendarViewProps {
-  currentDate: Date;
+  // currentDate: Date;
   days: (Date | null)[];
-  notes: Record<string, { value: string }>;
+  // notes?: Record<string, { value: string }>;
   entries:Entry[];
   handleDateClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
   selectedDates: Date[];
@@ -15,7 +15,7 @@ interface CalendarViewProps {
 
 const CalendarView: React.FC<CalendarViewProps> = ({
   days,
-  notes,
+  // notes,
   entries,
   handleDateClick,
   selectedDates
@@ -36,7 +36,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
           key={index}
           date={date}
           selectedDates={selectedDates}
-          notes={notes}
+          // notes={notes}
           entries={date ? groupedEntries[date.toISOString().split("T")[0]] || [] : []}
           handleClick={handleDateClick}
           isListView={false}

@@ -1,6 +1,8 @@
 export interface User {
-  user_uuid: string;
-  token: string;
+  uuid: string;
+  username?: string;
+  email?: string;
+  token?: string;
 }
 
 export interface Clock {
@@ -9,11 +11,11 @@ export interface Clock {
 }
 
 export interface EntryType {
-    id:number;
-    value: string;
-    description: string;
+  id: number;
+  value: string;
+  description: string;
 }
-  
+
 export interface ClockProgram {
   program_id: number;
   entries_type: EntryType[];
@@ -27,6 +29,3 @@ export interface Entry {
   time: string;
   clock_id: string;
 }
-
-
-  

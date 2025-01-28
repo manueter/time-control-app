@@ -9,7 +9,7 @@ import { Entry } from "../../types/interfaces";
 interface DayCellProps {
   date: Date | null;
   selectedDates: Date[];
-  notes: Record<string, { value: string }>;
+  notes?: Record<string, { value: string }>;
   entries: Entry[];
   handleClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
   isListView: boolean;
@@ -18,14 +18,12 @@ interface DayCellProps {
 const DayCell: React.FC<DayCellProps> = ({
   date,
   selectedDates,
-  notes,
+  // notes,
   entries,
   handleClick,
   isListView,
 }) => {
   if (!date) return <div className="empty-cell" />;
-
-  const dateStr = date.toISOString().split("T")[0];
 
   const isSelected = selectedDates.some(
     (d) => d.toISOString() === date.toISOString()
@@ -75,11 +73,11 @@ const DayCell: React.FC<DayCellProps> = ({
         {date && (
           <>
             <div className="day-number">{dateTitle()}</div>
-            {notes[date.toISOString()] && (
+            {/* {notes[date.toISOString()] && (
               <div className="note-preview">
                 {notes[date.toISOString()].value}
               </div>
-            )}
+            )} */}
             <div className="entry-preview">
             {entries.map((entry) => (
                 <div key={`${entry.entry_id}-${entry.time}`} className="entry">
