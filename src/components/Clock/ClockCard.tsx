@@ -10,7 +10,7 @@ interface ClockCardProps {
   showCard: boolean;
   userIsLogged: boolean;
   entriesTypes: EntryType[];
-  handleEntrySubmit: (entryId: number) => void;
+  handleEntrySubmit: (entry: EntryType) => void;
 }
 const ClockCard: React.FC<ClockCardProps> = ({
   showCard,

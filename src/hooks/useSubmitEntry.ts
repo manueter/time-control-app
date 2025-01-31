@@ -14,7 +14,7 @@ export const useSubmitEntry = () => {
     true // `requiresAuth` 
   );
 
-  const submitEntry = async (entryId: number) => {
+  const submitEntry = async (entryId: number, entryDescription:string) => {
     if (!user?.token) {
       alert("You must be logged in to submit an entry.");
       return;
@@ -27,10 +27,10 @@ export const useSubmitEntry = () => {
         entry_type_id: entryId,
         user_uuid: user.user_uuid,
       });
-      alert("Entry submitted successfully!");
+      alert(`${entryDescription} registrada correctamente!`);
     } catch (err) {
       console.error(err);
-      alert("Failed to submit entry.");
+      alert("Ha ocurrido un error al registrar la entrada.");
     } finally {
       setIsSubmitting(false);
     }

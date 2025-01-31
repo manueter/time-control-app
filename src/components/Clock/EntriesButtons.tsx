@@ -4,7 +4,7 @@ import "../../styles/form-styles.css";
 import "../../styles/clock-styles.css";
 
 interface EntriesButtonsProps {
-  onSubmit: (entryId: number) => void;
+  onSubmit: (entryType: EntryType) => void;
   isLoading: boolean;
   types: EntryType[];
 }
@@ -27,7 +27,7 @@ const EntriesButtons: React.FC<EntriesButtonsProps> = ({
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (selectedEntryType) {
-      onSubmit(selectedEntryType.id);
+      onSubmit(selectedEntryType);
     } else {
       alert("Por favor selecciona un evento.");
     }
