@@ -5,13 +5,11 @@ const useKeepAlive = () => {
     const keepAlive = () => {
       fetch(`${import.meta.env.VITE_API_BASE_URL}/ping`)
         .then((res) => res.text())
-        .then((data) => console.log("Ping response:", data))
-        .catch((err) => console.error("Ping failed:", err));
+        .catch((err) => console.error("No connection with server:", err));
     };
 
-    const interval = setInterval(keepAlive, 300000); // Cada 5 minutos
-    keepAlive(); // Llamar una vez al inicio
-
+    const interval = setInterval(keepAlive, 300000); // Every 5 minutes
+    keepAlive(); 
     return () => clearInterval(interval);
   }, []);
 };
