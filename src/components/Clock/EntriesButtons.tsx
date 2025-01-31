@@ -5,18 +5,21 @@ import "../../styles/clock-styles.css";
 
 interface EntriesButtonsProps {
   onSubmit: (entryId: number) => void;
-  isLoading:boolean;
-  types:EntryType[];
+  isLoading: boolean;
+  types: EntryType[];
 }
 
-const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, types }) => {
+const EntriesButtons: React.FC<EntriesButtonsProps> = ({
+  onSubmit,
+  isLoading,
+  types,
+}) => {
+  const [selectedEntryType, setSelectedEntryType] = useState<EntryType | null>(
+    null
+  );
 
-  const [selectedEntryType, setSelectedEntryType] = useState<EntryType | null>(null);
-  
-  if(isLoading) return <></>
-
-  const handleEntrySelect = (value:string) => {
-    const type = types?.find((type) => type.value === value); 
+  const handleEntrySelect = (value: string) => {
+    const type = types?.find((type) => type.value === value);
     if (type) {
       setSelectedEntryType(type);
     }
@@ -24,21 +27,25 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, typ
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (selectedEntryType) {
-      onSubmit(selectedEntryType.id); 
+      onSubmit(selectedEntryType.id);
     } else {
       alert("Por favor selecciona un evento.");
     }
   };
 
   if (types?.length === 0) {
-    return <p>No hay entradas disponibles.</p>;
+    return (
+      <span>
+        Cargando entradas...
+      </span>
+    );
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <select
         className="entryDropdown"
-        value={selectedEntryType?.value?? ""}
+        value={selectedEntryType?.value ?? ""}
         onChange={(e) => handleEntrySelect(e.target.value)}
         disabled={isLoading}
         required
@@ -46,7 +53,7 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, typ
         <option value="" disabled>
           Elija un tipo de marca
         </option>
-        {types?.map((entry:EntryType) => (
+        {types?.map((entry: EntryType) => (
           <option key={entry.id} value={entry.value}>
             {entry.description}
           </option>

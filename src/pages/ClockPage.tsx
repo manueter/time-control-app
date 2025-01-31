@@ -37,7 +37,7 @@ const ClockPage = () => {
     <ClockCard
       showCard={showCard}
       serverTime={serverTime}
-      isLoading={isSubmitting}
+      isLoading={isSubmitting || isLoading}
       userIsLogged={!!user}
       entriesTypes={entriesTypes}
       handleEntrySubmit={handleEntrySubmit}
