@@ -8,9 +8,11 @@ import Calendar from "./pages/Calendar";
 import Profile from "./pages/Profile"
 
 import SettingsPage from "./pages/SettingsPage";
+import useKeepAlive from "./hooks/useKeepAlive";
 
 // import ProtectedRoute from "./pages/ProtectedRoute";
 function App() {
+  useKeepAlive();
   return (
     <div className="full-height-container">
       <SideBar />
