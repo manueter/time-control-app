@@ -17,6 +17,7 @@ import {
 import { Link, useNavigate } from "react-router";
 
 const Sidebar = () => {
+  
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth(); 
   const navigate = useNavigate();

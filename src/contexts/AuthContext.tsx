@@ -24,6 +24,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const login = useCallback((userData: User) => {
+    logout();
+  
     setUser(userData);
     try {
       localStorage.setItem("user", JSON.stringify(userData));

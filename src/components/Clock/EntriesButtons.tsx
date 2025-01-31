@@ -6,31 +6,31 @@ import "../../styles/clock-styles.css";
 interface EntriesButtonsProps {
   onSubmit: (entryId: number) => void;
   isLoading:boolean;
-  entries?:EntryType[];
+  types:EntryType[];
 }
 
-const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, entries }) => {
+const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, types }) => {
 
-  const [selectedEntry, setSelectedEntry] = useState<EntryType | null>(null);
+  const [selectedEntryType, setSelectedEntryType] = useState<EntryType | null>(null);
   
   if(isLoading) return <></>
 
   const handleEntrySelect = (value:string) => {
-    const entry = entries?.find((entry) => entry.value === value); 
-    if (entry) {
-      setSelectedEntry(entry);
+    const type = types?.find((type) => type.value === value); 
+    if (type) {
+      setSelectedEntryType(type);
     }
   };
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (selectedEntry) {
-      onSubmit(selectedEntry.id); 
+    if (selectedEntryType) {
+      onSubmit(selectedEntryType.id); 
     } else {
       alert("Por favor selecciona un evento.");
     }
   };
 
-  if (entries?.length === 0) {
+  if (types?.length === 0) {
     return <p>No hay entradas disponibles.</p>;
   }
 
@@ -38,7 +38,7 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, ent
     <form onSubmit={handleSubmit}>
       <select
         className="entryDropdown"
-        value={selectedEntry?.value?? ""}
+        value={selectedEntryType?.value?? ""}
         onChange={(e) => handleEntrySelect(e.target.value)}
         disabled={isLoading}
         required
@@ -46,7 +46,7 @@ const EntriesButtons:React.FC<EntriesButtonsProps> = ({ onSubmit, isLoading, ent
         <option value="" disabled>
           Elija un tipo de marca
         </option>
-        {entries?.map((entry:EntryType) => (
+        {types?.map((entry:EntryType) => (
           <option key={entry.id} value={entry.value}>
             {entry.description}
           </option>
