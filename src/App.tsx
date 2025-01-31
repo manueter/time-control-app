@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Clock from "./pages/ClockPage";
 import SideBar from "./components/SideBar";
 import Calendar from "./pages/Calendar";
+import Profile from "./pages/Profile"
 
 import SettingsPage from "./pages/SettingsPage";
 
@@ -20,7 +21,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="clock" element={<Clock />} />
         <Route path="calendar" element={<Calendar />} />
-        
+        <Route path="profile" element={<Profile />} />
         <Route path="settingsPage" element={<SettingsPage />} />
         {/*<Route element={<ProtectedRoute />}>
           

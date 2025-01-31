@@ -25,7 +25,7 @@ export const useSubmitEntry = () => {
       await postData({
         clock_id: DEFAULT_CLOCK_ID,
         entry_type_id: entryId,
-        user_uuid: user.uuid,
+        user_uuid: user.user_uuid,
       });
       alert("Entry submitted successfully!");
     } catch (err) {

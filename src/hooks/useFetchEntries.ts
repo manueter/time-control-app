@@ -7,7 +7,7 @@ export const useFetchEntries = () => {
 
   const fetchEntries = async (startDate: string, endDate: string) => {
     const url = new URL(`${API_BASE_URL}/entries`);
-    url.searchParams.append("user_uuid", user?.uuid ?? "");
+    url.searchParams.append("user_uuid", user?.user_uuid ?? "");
     url.searchParams.append("start_date", startDate);
     url.searchParams.append("end_date", endDate);
 

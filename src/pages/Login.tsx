@@ -16,7 +16,6 @@ const Login = () => {
   const { user, login } = useAuth();
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
- 
 
   const { postData, isLoading, error } = usePost(
     `${API_BASE_URL}/auth`,
@@ -46,11 +45,10 @@ const Login = () => {
       const data = await postData(payload);
       if (data) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user_uuid", data.uuid);
+        localStorage.setItem("user_uuid", data.user_uuid);
+      
+        login({ user_uuid: data.user_uuid, token: data.token });
         alert("Sesión iniciada con éxito.");
-
-        login({ uuid: data.uuid, token: data.token });
-
         navigate("/clock");
       }
     } catch (error) {
