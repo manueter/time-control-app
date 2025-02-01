@@ -3,71 +3,56 @@ import Header from "../components/Calendar/Header";
 import ListView from "../components/Calendar/ListView";
 import CalendarView from "../components/Calendar/CalendarView";
 import NoteModal from "../components/Calendar/NoteModal";
-import { useFetchEntries } from "../hooks/useFetchEntries";
-import { getDatesInRange, getDaysInMonth, getWeekDays, ViewTypeEnum } from "../utils/dateUtils";
-import { Entry } from "../types/interfaces";
+import {
+  getDaysInMonth,
+} from "../utils/dateUtils";
 import "../styles/calendar-styles.css";
-
+import { useAuth } from "../contexts/AuthContext";
+import { useCalendarEntries } from "../hooks/useCalendarEntries";
+import { useDateSelection } from "../hooks/useDateSelection";
 
 const Calendar: React.FC = () => {
+  const { user } = useAuth();
+  const { entries, fetchEntries } = useCalendarEntries();
 
-  const viewType = ViewTypeEnum.Month;
+  const {
+    currentDate,
+    setCurrentDate,
+    selectedDates,
+    shiftPressed,
+    ctrlPressed,
+    handleDateClick,
+    deselectAll,
+
+    isModalOpen,
+    setIsModalOpen,
+    currentNote,
+    setCurrentNote,
+  } = useDateSelection();
+
   const [isListView, setIsListView] = useState(false);
-
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [currentNote, setCurrentNote] = useState<string>(""); 
-
-  const [shiftPressed, setShiftPressed] = useState(false);
-  const [ctrlPressed, setCtrlPressed] = useState(false);
-
-  // const [notes, fetchNotes] = useFetchNotes();
-  const { fetchEntries} = useFetchEntries();
-  const [entries, setEntries] = useState<Entry[]>([]);
-
-  const days = viewType === ViewTypeEnum.Month
-  ? getDaysInMonth(currentDate)
-  : getWeekDays(currentDate);
-
-  const visibleStartDate = days.find((date) => date !== null)?.toISOString().split("T")[0];
-  const visibleEndDate = [...days].reverse().find((date) => date !== null)?.toISOString().split("T")[0];
+  const [visibleDates, setVisibleDates] = useState<(Date | null)[]>();
+  const [visibleStartDate, setVisibleStartDate] = useState<string | null>(null);
+  const [visibleEndDate, setVisibleEndDate] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchVisibleEntries = async () => {
-      if (visibleStartDate && visibleEndDate) {
-        try {
-          const fetchedEntries = await fetchEntries(visibleStartDate, visibleEndDate); // Await the Promise
-          setEntries(fetchedEntries); // Update state with resolved data
-        } catch (error) {
-          console.error("Error fetching entries:", error);
-        }
-      }
-    };
+    let days: (Date | null)[] = getDaysInMonth(currentDate);
+    if (days) setVisibleDates(days);
   
-    fetchVisibleEntries(); // Call the async function
-  }, [visibleStartDate, visibleEndDate, fetchEntries]);
-
-  //for KEY PRESSED
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Shift") setShiftPressed(true);
-      if (e.key === "Control") setCtrlPressed(true);
-    };
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "Shift") setShiftPressed(false);
-      if (e.key === "Control") setCtrlPressed(false);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
-  }, []);
+    const firstValidDate = days.find(day => day !== null);
+    const lastValidDate = [...days].reverse().find(day => day !== null);
+  
+    const startDate = firstValidDate ? firstValidDate.toISOString().split("T")[0] : null;
+    const endDate = lastValidDate ? lastValidDate.toISOString().split("T")[0] : null;
+  
+    if (startDate !== visibleStartDate || endDate !== visibleEndDate) {
+      setVisibleStartDate(startDate);
+      setVisibleEndDate(endDate);
+    }
+    if(user && visibleStartDate && visibleEndDate){
+      fetchEntries(visibleStartDate, visibleEndDate);
+    }
+  }, [currentDate, visibleStartDate, visibleEndDate]);
 
   const navigateMonth = (direction: number) => {
     setCurrentDate(
@@ -75,52 +60,17 @@ const Calendar: React.FC = () => {
     );
   };
 
-
-  const toggleDate = (date: Date) => {
-    const dateStr = date.toISOString();
-    setSelectedDates((prev) =>
-      prev.some((d) => d.toISOString() === dateStr)
-        ? prev.filter((d) => d.toISOString() !== dateStr)
-        : [...prev, date]
-    );
+  const handleNoteSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("No se puede guardar notas actualmente.");
+    setIsModalOpen(false);
   };
-  const handleDateClick = (
+
+  const handleDateClickWithModifier = (
     event: React.MouseEvent<HTMLButtonElement>,
     date: Date
   ) => {
-    if (event.detail === 1) {
-      if (shiftPressed && selectedDates.length > 0) {
-        const lastSelected = new Date(selectedDates[selectedDates.length - 1]);
-        const start = lastSelected < date ? lastSelected : date;
-        const end = lastSelected < date ? date : lastSelected;
-        const newDates = getDatesInRange(start, end);
-        setSelectedDates((prev) => [...new Set([...prev, ...newDates])]);
-      } else if (ctrlPressed) {
-        toggleDate(date);
-      } else {
-        toggleDate(date);
-      }
-    } else if (event.detail === 2) {
-      
-      setSelectedDates((prev) =>
-        prev.some((d) => d.toISOString() === date.toISOString())
-          ? prev
-          : [...prev, date]
-      );
-      
-      setIsModalOpen(true);
-    }
-  };
-  const deselectAll = () => {
-    setSelectedDates([]);
-  };
-
-  const handleNoteSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (selectedDates) {
-      alert("No se puede guardar notas actualmente.")
-    }
-    setIsModalOpen(false);
+    handleDateClick(event, date, shiftPressed, ctrlPressed);
   };
 
   return (
@@ -131,26 +81,30 @@ const Calendar: React.FC = () => {
         currentDate={currentDate}
         navigateMonth={navigateMonth}
       />
-              {isListView ? (selectedDates.length > 0 && (
+      {isListView ? (
+        selectedDates.length > 0 && (
           <button className="deselect-all-button" onClick={deselectAll}>
             Borrar seleccion
           </button>
-        )):(<></>)}
+        )
+      ) : (
+        <></>
+      )}
       {!isListView ? (
         <CalendarView
-          // currentDate={currentDate}
-          days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
+          days={visibleDates}
           entries={entries}
-          handleDateClick={handleDateClick}
+          handleDateClick={handleDateClickWithModifier}
           selectedDates={selectedDates}
         />
-      ):(<ListView 
-        // currentDate={currentDate}
-        days={viewType===ViewTypeEnum.Month ? (getDaysInMonth(currentDate)):(getWeekDays(currentDate))}
-        entries={entries}
-        handleDateClick={handleDateClick}
-        selectedDates={selectedDates}
-        />)}
+      ) : (
+        <ListView
+          days={getDaysInMonth(currentDate)}
+          entries={entries}
+          handleDateClick={handleDateClickWithModifier}
+          selectedDates={selectedDates}
+        />
+      )}
       {isModalOpen && selectedDates && (
         <NoteModal
           selectedDates={selectedDates}
@@ -163,11 +117,11 @@ const Calendar: React.FC = () => {
       )}
 
       <div className="calendar-footer">
-        {!isListView ? (selectedDates.length > 0 && (
+        {!isListView && selectedDates.length > 0 && (
           <button className="deselect-all-button" onClick={deselectAll}>
-            Borrar seleccion
+            Borrar selección
           </button>
-        )):(<></>)}
+        )}
       </div>
     </div>
   );

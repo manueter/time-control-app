@@ -9,7 +9,6 @@ const ClockPage = () => {
   const [showCard, setShowCard] = useState(false);
   const { user } = useAuth();
   const { submitEntry, isSubmitting } = useSubmitEntry();
-  console.log(user);
   const {entriesTypes, isLoading, fetchEntriesTypes} = useFetchEntriesTypes();
   const {serverTime, fetchServerTime } = useFetchServerTime();
 

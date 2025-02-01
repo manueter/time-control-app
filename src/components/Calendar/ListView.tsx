@@ -4,7 +4,6 @@ import { Entry } from "../../types/interfaces";
 import { groupEntriesByDate } from "../../utils/entryUtils";
 
 interface ListViewProps {
-  // currentDate: Date;
   days: (Date | null)[];
   notes?: Record<string, { value: string }>;
   entries:Entry[];

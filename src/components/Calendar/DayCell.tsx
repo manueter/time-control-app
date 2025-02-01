@@ -18,7 +18,7 @@ interface DayCellProps {
 const DayCell: React.FC<DayCellProps> = ({
   date,
   selectedDates,
-  // notes,
+  notes,
   entries,
   handleClick,
   isListView,

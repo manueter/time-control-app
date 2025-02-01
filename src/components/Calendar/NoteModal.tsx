@@ -2,7 +2,7 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { selectedDatesToString } from "../../utils/dateUtils";
 import { Entry } from "../../types/interfaces";
-
+ 
 interface NoteModalProps {
   selectedDates: Date[];
   entries: Entry[];
