@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDatesInRange, getDaysInMonth, getWeekDays, ViewTypeEnum } from "../utils/dateUtils";
+import { getDatesInRange } from "../utils/dateUtils";
 
 export const useDateSelection = () => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);

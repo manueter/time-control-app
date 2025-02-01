@@ -18,7 +18,7 @@ interface DayCellProps {
 const DayCell: React.FC<DayCellProps> = ({
   date,
   selectedDates,
-  notes,
+  //notes,
   entries,
   handleClick,
   isListView,
@@ -73,11 +73,6 @@ const DayCell: React.FC<DayCellProps> = ({
         {date && (
           <>
             <div className="day-number">{dateTitle()}</div>
-            {/* {notes[date.toISOString()] && (
-              <div className="note-preview">
-                {notes[date.toISOString()].value}
-              </div>
-            )} */}
             <div className="entry-preview">
             {entries.map((entry) => (
                 <div key={`${entry.entry_id}-${entry.time}`} className="entry">
