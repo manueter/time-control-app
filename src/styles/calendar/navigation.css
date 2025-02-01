@@ -1,0 +1,23 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navigation-button {
+  opacity: 50%;
+  padding: 0.5rem;
+  margin: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.navigation-button:hover {
+  background-color: #343f55;
+}
+
+.current-month {
+  font-size: 1.25rem;
+  font-weight: 600;
+}

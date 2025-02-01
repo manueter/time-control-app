@@ -8,7 +8,7 @@ import {
   getDaysInMonth,
   isSameDate,
 } from "../utils/dateUtils";
-import "../styles/calendar-styles.css";
+import "../styles/calendar/calendar.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useCalendarEntries } from "../hooks/useCalendarEntries";
 import { useDateSelection } from "../hooks/useDateSelection";
@@ -38,36 +38,36 @@ const Calendar: React.FC = () => {
   const [visibleEndDate, setVisibleEndDate] = useState<string | null>(null);
 
   const selectedEntries = useMemo(() => {
-
     if (entries.length > 0) {
-      return entries.filter(entry => 
-        selectedDates.some(d => isSameDate(new Date(entry.date), d))
+      return entries.filter((entry) =>
+        selectedDates.some((d) => isSameDate(new Date(entry.date), d))
       );
     }
     return [];
   }, [entries, selectedDates]);
-  
 
   useEffect(() => {
-    const days = getDaysInMonth(currentDate); 
+    const days = getDaysInMonth(currentDate);
     if (days) setVisibleDates(days);
-  
-    const firstValidDate = days.find(day => day !== null) ?? null;
-    const lastValidDate = [...days].reverse().find(day => day !== null) ?? null;
-    
-    const startDate = firstValidDate ? dateToString_YYYYMMDD(firstValidDate) : null;
+
+    const firstValidDate = days.find((day) => day !== null) ?? null;
+    const lastValidDate =
+      [...days].reverse().find((day) => day !== null) ?? null;
+
+    const startDate = firstValidDate
+      ? dateToString_YYYYMMDD(firstValidDate)
+      : null;
     const endDate = lastValidDate ? dateToString_YYYYMMDD(lastValidDate) : null;
-  
+
     if (startDate !== visibleStartDate || endDate !== visibleEndDate) {
       setVisibleStartDate(startDate);
       setVisibleEndDate(endDate);
     }
-  
+
     if (user && startDate && endDate) {
       fetchEntries(startDate, endDate);
     }
   }, [currentDate, visibleStartDate, visibleEndDate]);
-  
 
   const navigateMonth = (direction: number) => {
     setCurrentDate(
@@ -90,12 +90,14 @@ const Calendar: React.FC = () => {
 
   return (
     <div className="calendar-container">
-      <Header
-        isListView={isListView}
-        toggleListView={() => setIsListView(!isListView)}
-        currentDate={currentDate}
-        navigateMonth={navigateMonth}
-      />
+      <div className="calendar-header">
+        <Header
+          isListView={isListView}
+          toggleListView={() => setIsListView(!isListView)}
+          currentDate={currentDate}
+          navigateMonth={navigateMonth}
+        />
+      </div>
       {isListView ? (
         selectedDates.length > 0 && (
           <button className="deselect-all-button" onClick={deselectAll}>

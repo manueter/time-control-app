@@ -1,7 +1,8 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
-import { dateToString_DDMMYYY, dateToString_YYYYMMDD, selectedDatesToString } from "../../utils/dateUtils";
+import { dateToString_DDMMYYY, selectedDatesToString } from "../../utils/dateUtils";
 import { Entry } from "../../types/interfaces";
+import "../../styles/calendar/modal.css";
  
 interface NoteModalProps {
   selectedDates: Date[];

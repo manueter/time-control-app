@@ -5,6 +5,8 @@ import {
   monthNames,
 } from "../../utils/dateUtils";
 import { Entry } from "../../types/interfaces";
+import "../../styles/calendar/grid.css";
+import "../../styles/calendar/entries.css";
 
 interface DayCellProps {
   date: Date | null;
@@ -74,15 +76,13 @@ const DayCell: React.FC<DayCellProps> = ({
           <>
             <div className="day-number">{dateTitle()}</div>
             <div className="entry-preview">
-            {entries.map((entry) => (
+              {entries.slice(0, 2).map((entry) => (
                 <div key={`${entry.entry_id}-${entry.time}`} className="entry">
-                  {entry.entry_type} *  
-                  {entry.time.substring(0,8)}
+                  {entry.entry_type} * {entry.time.substring(0, 8)}
                 </div>
               ))}
+              {entries.length > 2 && <div className="more-entries">...</div>}
             </div>
-
-            
           </>
         )}
       </button>

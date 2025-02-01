@@ -3,6 +3,7 @@ import { daysOfWeekTitles } from "../../utils/dateUtils";
 import DayCell from "./DayCell";
 import { Entry } from "../../types/interfaces";
 import { groupEntriesByDate } from "../../utils/entryUtils";
+import "../../styles/calendar/grid.css";
 
 interface CalendarViewProps {
   days: (Date | null)[] | undefined;

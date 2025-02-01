@@ -5,6 +5,7 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
+import "../../styles/calendar/navigation.css";
 import { monthNames } from "../../utils/dateUtils";
  
 interface HeaderProps {
@@ -20,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({
   currentDate,
   navigateMonth,
 }) => (
-  <div className="calendar-header">
+  <>
     <div className="view-options">
       <button onClick={toggleListView} className="view-toggle-button">
         {isListView ? <FaCalendarAlt /> : <FaList />}
@@ -37,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({
         <FaChevronRight />
       </button>
     </div>
-  </div>
+  </>
 );
 
 export default Header;
