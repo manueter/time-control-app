@@ -30,6 +30,8 @@ export const ViewTypeEnum = {
 } as const;
 export type ViewType = (typeof ViewTypeEnum)[keyof typeof ViewTypeEnum];
 
+
+
 export const getWeekDays = (date: Date): (Date | null)[] => {
   const days: (Date | null)[] = [];
 
@@ -72,12 +74,9 @@ export const getDatesInRange = (start: Date, end: Date) => {
 };
 
 export const isSameDate = (date1: Date | null, date2: Date | null): boolean => {
-  if (!date1 || !date2) return false; // Ensure both dates are defined
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
+  if (!date1 || !date2) return false;
+
+  return dateToString_YYYYMMDD(date1) === dateToString_YYYYMMDD(date2);
 };
 
 export const selectedDatesToString = (selectedDates: Date[]): string => {
@@ -88,10 +87,13 @@ export const selectedDatesToString = (selectedDates: Date[]): string => {
     .join(" - ");
 };
 
-
 export const dateToString_DDMMYYY = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, "0"); // Pad single digit days
   const month = String(date.getMonth() + 1).padStart(2, "0"); // Pad single digit months (note: months are 0-based)
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
+};
+
+export const dateToString_YYYYMMDD = (date: Date): string => {
+  return date.toISOString().split("T")[0];
 };

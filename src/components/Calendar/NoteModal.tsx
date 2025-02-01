@@ -1,6 +1,6 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
-import { selectedDatesToString } from "../../utils/dateUtils";
+import { dateToString_DDMMYYY, dateToString_YYYYMMDD, selectedDatesToString } from "../../utils/dateUtils";
 import { Entry } from "../../types/interfaces";
  
 interface NoteModalProps {
@@ -34,7 +34,7 @@ const NoteModal: React.FC<NoteModalProps> = ({
           <ul>
             {entries.map((entry) => (
               <li key={`${entry.entry_id}-${entry.time}`}>
-                <strong>{entry.entry_type}:</strong> {entry.time.substring(0, 8)}
+                <strong>{dateToString_DDMMYYY(new Date(entry.date))}:</strong> {entry.time.substring(0, 8)}
               </li>
             ))}
           </ul>

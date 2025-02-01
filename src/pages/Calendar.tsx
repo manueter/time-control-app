@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Header from "../components/Calendar/Header";
 import ListView from "../components/Calendar/ListView";
 import CalendarView from "../components/Calendar/CalendarView";
 import NoteModal from "../components/Calendar/NoteModal";
 import {
+  dateToString_YYYYMMDD,
   getDaysInMonth,
+  isSameDate,
 } from "../utils/dateUtils";
 import "../styles/calendar-styles.css";
 import { useAuth } from "../contexts/AuthContext";
@@ -35,24 +37,37 @@ const Calendar: React.FC = () => {
   const [visibleStartDate, setVisibleStartDate] = useState<string | null>(null);
   const [visibleEndDate, setVisibleEndDate] = useState<string | null>(null);
 
+  const selectedEntries = useMemo(() => {
+
+    if (entries.length > 0) {
+      return entries.filter(entry => 
+        selectedDates.some(d => isSameDate(new Date(entry.date), d))
+      );
+    }
+    return [];
+  }, [entries, selectedDates]);
+  
+
   useEffect(() => {
-    let days: (Date | null)[] = getDaysInMonth(currentDate);
+    const days = getDaysInMonth(currentDate); 
     if (days) setVisibleDates(days);
   
-    const firstValidDate = days.find(day => day !== null);
-    const lastValidDate = [...days].reverse().find(day => day !== null);
-  
-    const startDate = firstValidDate ? firstValidDate.toISOString().split("T")[0] : null;
-    const endDate = lastValidDate ? lastValidDate.toISOString().split("T")[0] : null;
+    const firstValidDate = days.find(day => day !== null) ?? null;
+    const lastValidDate = [...days].reverse().find(day => day !== null) ?? null;
+    
+    const startDate = firstValidDate ? dateToString_YYYYMMDD(firstValidDate) : null;
+    const endDate = lastValidDate ? dateToString_YYYYMMDD(lastValidDate) : null;
   
     if (startDate !== visibleStartDate || endDate !== visibleEndDate) {
       setVisibleStartDate(startDate);
       setVisibleEndDate(endDate);
     }
-    if(user && visibleStartDate && visibleEndDate){
-      fetchEntries(visibleStartDate, visibleEndDate);
+  
+    if (user && startDate && endDate) {
+      fetchEntries(startDate, endDate);
     }
   }, [currentDate, visibleStartDate, visibleEndDate]);
+  
 
   const navigateMonth = (direction: number) => {
     setCurrentDate(
@@ -108,7 +123,7 @@ const Calendar: React.FC = () => {
       {isModalOpen && selectedDates && (
         <NoteModal
           selectedDates={selectedDates}
-          entries={entries}
+          entries={selectedEntries}
           currentNote={currentNote}
           setCurrentNote={setCurrentNote}
           closeModal={() => setIsModalOpen(false)}
