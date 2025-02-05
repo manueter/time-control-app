@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../contexts/AuthContext";
 import {
@@ -21,7 +21,8 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth(); 
   const navigate = useNavigate();
-
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -30,6 +31,28 @@ const Sidebar = () => {
     logout();
     navigate("/login"); 
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+  
   const menuItems = [
     { icon: <FiClock size={20} />, title: "Reloj", route: "/clock", implemented: true  },
     { icon: <FiCalendar size={20} />, title: "Calendario", route: "/calendar", implemented: true  },
@@ -39,7 +62,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="burger-sidebar">
+    <div className="burger-sidebar" ref={sidebarRef}>
       <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
         <div className="sidebar-content">
           <div className="space-y-4">
