@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import ClockCard from "../components/Clock/ClockCard";
+import ClockCard from "../components/clock/ClockCard";
 import { useSubmitEntry } from "../hooks/useSubmitEntry";
 import { useFetchEntriesTypes, useFetchServerTime } from "../hooks/useFetchClockProgram";
 import { EntryType } from "../types/interfaces";

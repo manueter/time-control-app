@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ToggleButton from "../ToggleButton";
-import "../../styles/clock-styles.css";
+import ToggleButton from "../shared/ToggleButton";
+import "../../styles/clock/clock-styles.css";
 
 interface ClockDisplayProps {
   serverTime: Date | null;

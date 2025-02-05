@@ -1,7 +1,7 @@
-import "../styles/sidebar-styles.css";
-import { useState } from "react";
 
-import { useAuth } from "../contexts/AuthContext";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../../contexts/AuthContext";
 import {
   FiClock,
   FiUser,
@@ -14,7 +14,7 @@ import {
   FiChevronRight,
   FiLogOut,
 } from "react-icons/fi";
-import { Link, useNavigate } from "react-router";
+import "../../styles/shared/sidebar-styles.css";
 
 const Sidebar = () => {
   
@@ -43,8 +43,8 @@ const Sidebar = () => {
       <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
         <div className="sidebar-content">
           <div className="space-y-4">
-            {menuItems.map((item, index) => (
-              <Link to={item.route} key={index} className={`menu-item ${!item.implemented ? 'disabled' : ''}`} >
+            {menuItems.map((item) => (
+              <Link to={item.route} key={item.title} className={`menu-item ${!item.implemented ? 'disabled' : ''}`} >
                 {item.icon}
                 <span className="font-medium">{item.title}</span>
               </Link>

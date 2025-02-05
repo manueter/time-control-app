@@ -1,7 +1,7 @@
 import React from "react";
 import DayCell from "./DayCell";
 import { Entry } from "../../types/interfaces";
-import { groupEntriesByDate } from "../../utils/entryUtils";
+import { filterEntriesByDate } from "../../utils/entryUtils";
 
 interface ListViewProps {
   days: (Date | null)[];
@@ -21,8 +21,6 @@ const ListView: React.FC<ListViewProps> = ({
   handleDateClick,
   selectedDates,
 }) => {
-  
-    const groupedEntries = groupEntriesByDate(entries);
   return (
   <div className="calendar-list">
     {days.map((date, index) => (
@@ -31,7 +29,7 @@ const ListView: React.FC<ListViewProps> = ({
         date={date}
         selectedDates={selectedDates}
         notes={notes}
-        entries={date ? groupedEntries[date.toISOString().split("T")[0]] || [] : []}
+        entries={date ? filterEntriesByDate(entries, date) : []}
         handleClick={handleDateClick}
         isListView={true}
       />

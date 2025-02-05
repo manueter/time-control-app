@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/togglebutton-styles.css"
+import "../../styles/shared/togglebutton-styles.css"
 
 interface ToggleButtonProps {
   label_a: string;

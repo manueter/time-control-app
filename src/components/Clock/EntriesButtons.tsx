@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { EntryType } from "../../types/interfaces";
-import "../../styles/form-styles.css";
-import "../../styles/clock-styles.css";
+import "../../styles/shared/form-styles.css";
+import "../../styles/clock/clock-styles.css";
 
 interface EntriesButtonsProps {
   onSubmit: (entryType: EntryType) => void;

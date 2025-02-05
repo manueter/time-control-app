@@ -1,10 +1,10 @@
-import "../styles/form-styles.css";
 import { useEffect, useState } from "react";
 import { AiOutlineLock } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { usePost } from "../hooks/usePost";
+import "../styles/shared/form-styles.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

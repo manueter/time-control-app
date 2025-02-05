@@ -3,6 +3,7 @@ import { useFetchEntries } from "./useFetchEntries";
 import { Entry } from "../types/interfaces";
 
 export const useCalendarEntries = () => {
+    
     const { fetchEntries } = useFetchEntries();
     const [entries, setEntries] = useState<Entry[]>([]);
 

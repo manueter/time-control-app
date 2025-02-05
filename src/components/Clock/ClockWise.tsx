@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../../styles/clockwise-styles.css"; 
+import "../../styles/clock/clockwise-styles.css"; 
 
 interface ClockWiseProps {
   serverTime: Date | null; 

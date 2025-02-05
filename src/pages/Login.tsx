@@ -1,11 +1,11 @@
-import "../styles/form-styles.css";
 import { BiUser } from "react-icons/bi";
 import { AiOutlineLock } from "react-icons/ai";
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { usePost } from "../hooks/usePost";
-import Badge from "../components/Badge";
+import Badge from "../components/shared/Badge";
+import "../styles/shared/form-styles.css";
  
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

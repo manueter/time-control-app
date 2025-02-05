@@ -1,8 +1,8 @@
 import React from "react";
+import { Entry } from "../../types/interfaces";
+import { filterEntriesByDate } from "../../utils/entryUtils";
 import { daysOfWeekTitles } from "../../utils/dateUtils";
 import DayCell from "./DayCell";
-import { Entry } from "../../types/interfaces";
-import { groupEntriesByDate } from "../../utils/entryUtils";
 import "../../styles/calendar/grid.css";
 
 interface CalendarViewProps {
@@ -19,7 +19,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   selectedDates
 }) => {
 
-  const groupedEntries = groupEntriesByDate(entries);
   return(
   
     <div className="calendar-grid">
@@ -33,7 +32,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
           key={index}
           date={date}
           selectedDates={selectedDates}
-          entries={date ? groupedEntries[date.toISOString().split("T")[0]] || [] : []}
+          entries={date ? filterEntriesByDate(entries, date) : []}
           handleClick={handleDateClick}
           isListView={false}
         />

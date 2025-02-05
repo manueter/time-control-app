@@ -1,14 +1,6 @@
 import { Entry } from "../types/interfaces";
+import { dateToString_DDMMYYYY } from "./dateUtils";
 
-export const groupEntriesByDate = (entries: Entry[]): Record<string, Entry[]> => {
-  const grouped: Record<string, Entry[]> = {};
-  entries.forEach((entry) => {
-    const dateKey = new Date(entry.date).toISOString().split("T")[0]; // Format as YYYY-MM-DD
-    if (!grouped[dateKey]) {
-      grouped[dateKey] = [];
-    }
-    grouped[dateKey].push(entry);
-  });
-
-  return grouped;
+export const filterEntriesByDate = (entries: Entry[], date:Date): Entry[] => {
+  return entries.filter((entry) => entry.date === dateToString_DDMMYYYY(date));
 };

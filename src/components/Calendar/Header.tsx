@@ -5,8 +5,8 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import "../../styles/calendar/navigation.css";
 import { monthNames } from "../../utils/dateUtils";
+import "../../styles/calendar/navigation.css";
  
 interface HeaderProps {
   isListView: boolean;

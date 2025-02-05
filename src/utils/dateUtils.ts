@@ -76,24 +76,28 @@ export const getDatesInRange = (start: Date, end: Date) => {
 export const isSameDate = (date1: Date | null, date2: Date | null): boolean => {
   if (!date1 || !date2) return false;
 
-  return dateToString_YYYYMMDD(date1) === dateToString_YYYYMMDD(date2);
+  if(date1.getFullYear()!=date2.getFullYear()) return false;
+  if(date1.getMonth()!=date2.getMonth()) return false;
+  if(date1.getDate()!=date2.getDate()) return false;
+
+  return true;
 };
 
 export const selectedDatesToString = (selectedDates: Date[]): string => {
   return selectedDates
     .map((date) => {
-      return dateToString_DDMMYYY(date);
+      return dateToString_DDMMYYYY(date);
     })
     .join(" - ");
 };
 
-export const dateToString_DDMMYYY = (date: Date): string => {
+export const dateToString_DDMMYYYY = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, "0"); // Pad single digit days
   const month = String(date.getMonth() + 1).padStart(2, "0"); // Pad single digit months (note: months are 0-based)
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
 
-export const dateToString_YYYYMMDD = (date: Date): string => {
-  return date.toISOString().split("T")[0];
-};
+// export const dateToString_YYYYMMDD = (date: Date): string => {
+//   return date.toISOString().split("T")[0];
+// };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/badge-style.css"; // Import the CSS file
+import "../../styles/shared/badge-style.css";
 
 interface BadgeProps {
   content: string[]; 

@@ -3,7 +3,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Clock from "./pages/ClockPage";
-import SideBar from "./components/SideBar";
+import SideBar from "./components/shared/SideBar";
 import Calendar from "./pages/Calendar";
 import Profile from "./pages/Profile"
 

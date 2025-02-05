@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDatesInRange } from "../utils/dateUtils";
+import { getDatesInRange, isSameDate } from "../utils/dateUtils";
 
 export const useDateSelection = () => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
@@ -31,10 +31,10 @@ export const useDateSelection = () => {
   }, []);
 
   const toggleDate = (date: Date) => {
-    const dateStr = date.toISOString();
+    const dateStr = date.toLocaleDateString();
     setSelectedDates((prev) =>
-      prev.some((d) => d.toISOString() === dateStr)
-        ? prev.filter((d) => d.toISOString() !== dateStr)
+      prev.some((d) => d.toLocaleDateString() === dateStr)
+        ? prev.filter((d) => d.toLocaleDateString() !== dateStr)
         : [...prev, date]
     );
   };
@@ -51,7 +51,13 @@ export const useDateSelection = () => {
         const start = lastSelected < date ? lastSelected : date;
         const end = lastSelected < date ? date : lastSelected;
         const newDates = getDatesInRange(start, end);
-        setSelectedDates((prev) => [...new Set([...prev, ...newDates])]);
+
+        const uniqueNewDates = newDates.filter(
+          (d) => !selectedDates.some((selected) => isSameDate(selected, d))
+        );
+        setSelectedDates((prev) => [...new Set([...prev, ...uniqueNewDates])]);
+
+      
       } else if (ctrlPressed) {
         toggleDate(date);
       } else {
@@ -59,12 +65,13 @@ export const useDateSelection = () => {
       }
     } else if (event.detail === 2) {
       setSelectedDates((prev) =>
-        prev.some((d) => d.toISOString() === date.toISOString())
+        prev.some((d) => isSameDate(d,date))
           ? prev
           : [...prev, date]
       );
       setIsModalOpen(true);
     }
+    console.log(selectedDates);
   };
 
   const deselectAll = () => {

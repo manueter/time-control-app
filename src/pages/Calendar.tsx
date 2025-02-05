@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Header from "../components/Calendar/Header";
-import ListView from "../components/Calendar/ListView";
-import CalendarView from "../components/Calendar/CalendarView";
-import NoteModal from "../components/Calendar/NoteModal";
+import Header from "../components/calendar/Header";
+import ListView from "../components/calendar/ListView";
+import CalendarView from "../components/calendar/CalendarView";
+import NoteModal from "../components/calendar/NoteModal";
 import {
-  dateToString_YYYYMMDD,
+  dateToString_DDMMYYYY,
   getDaysInMonth,
-  isSameDate,
 } from "../utils/dateUtils";
 import "../styles/calendar/calendar.css";
 import { useAuth } from "../contexts/AuthContext";
@@ -40,7 +39,7 @@ const Calendar: React.FC = () => {
   const selectedEntries = useMemo(() => {
     if (entries.length > 0) {
       return entries.filter((entry) =>
-        selectedDates.some((d) => isSameDate(new Date(entry.date), d))
+        selectedDates.some((d) => entry.date === dateToString_DDMMYYYY(d) )
       );
     }
     return [];
@@ -55,9 +54,9 @@ const Calendar: React.FC = () => {
       [...days].reverse().find((day) => day !== null) ?? null;
 
     const startDate = firstValidDate
-      ? dateToString_YYYYMMDD(firstValidDate)
+      ? dateToString_DDMMYYYY(firstValidDate)
       : null;
-    const endDate = lastValidDate ? dateToString_YYYYMMDD(lastValidDate) : null;
+    const endDate = lastValidDate ? dateToString_DDMMYYYY(lastValidDate) : null;
 
     if (startDate !== visibleStartDate || endDate !== visibleEndDate) {
       setVisibleStartDate(startDate);

@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { refreshToken } from "../utils/apiService";
+import { refreshToken } from "../services/apiService";
 
 interface UsePostResult<T = any> {
   isLoading: boolean;
