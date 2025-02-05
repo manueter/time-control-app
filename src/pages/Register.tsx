@@ -57,7 +57,7 @@ const Register = () => {
 
   return (
     <div className={`card ${showCard ? "show" : ""}`}>
-      <h1>Registro</h1>
+      <h1 className="heading">Registro</h1>
       <form onSubmit={handleRegister} className="flex">
         <div className="wrapper-input">
           <input
@@ -110,7 +110,7 @@ const Register = () => {
           </label>
         </div>
         <div className="wrapper">
-          <button type="submit" disabled={isLoading}>
+          <button className="form-button" type="submit" disabled={isLoading}>
             {isLoading ? "Cargando..." : "Registrarse"}
           </button>
         </div>

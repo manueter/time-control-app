@@ -1,6 +1,8 @@
 .calendar-grid {
   display: grid;
   margin-bottom: 1rem;
+  justify-content: center;
+  min-width: 30vw ;
   grid-template-columns: repeat(7, 1fr);
   gap: 0.2rem;
 }
@@ -13,8 +15,6 @@
 
 .day-cell{
   padding: 0;
-  height: 80px;
-  width: 100%;
   overflow: scroll;
   scrollbar-width: none;
   background-color: transparent;
@@ -24,21 +24,17 @@
   margin:0;
   cursor: pointer;
   transition: background-color 0.3s;
-
-
 }
 
-.list-cell{
-  padding: 0.6em 1.2em;
-  display: flex;
-  border-radius: 2px;
-  border: 0.5px solid #68686a;
-  width: 100%;
-}
+
 .calendar-cell{
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  min-height: 10vh;
+  min-width: 10vh;
   align-items: end;
+  flex-grow: 1;
   padding: 0.2em 0.4em 0.2em 0.4em;
 }
 

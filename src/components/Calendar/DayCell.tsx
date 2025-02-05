@@ -6,6 +6,7 @@ import {
 } from "../../utils/dateUtils";
 import { Entry } from "../../types/interfaces";
 import "../../styles/calendar/grid.css";
+import "../../styles/calendar/list.css";
 import "../../styles/calendar/entries.css";
 
 interface DayCellProps {

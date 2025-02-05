@@ -13,6 +13,7 @@
     font-size: 14px;
     max-width: 300px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9999; 
   }
   
   .badge-text {

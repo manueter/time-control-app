@@ -22,7 +22,7 @@ const ClockCard: React.FC<ClockCardProps> = ({
 }) => {
   return (
     <div className={`card ${showCard ? "show" : ""}`}>
-      <h1>
+      <h1 className="heading">
         {new Intl.DateTimeFormat("en-GB", {
           day: "2-digit",
           month: "2-digit",

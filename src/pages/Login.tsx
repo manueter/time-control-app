@@ -67,7 +67,7 @@ const Login = () => {
     <>
     <Badge content={badgeContent} />
     <div className={`card ${showCard ? "show" : ""}`}>
-      <h1>Iniciar sesión</h1>
+      <h1 className="heading">Iniciar sesión</h1>
       <form onSubmit={handleLogin} className="flex">
         <div className="wrapper-input">
           <input
@@ -95,7 +95,7 @@ const Login = () => {
           </label>
         </div>
         <div className="wrapper">
-          <button type="submit" disabled={isLoading}>
+          <button className="form-button" type="submit" disabled={isLoading}>
             {isLoading ? "Cargando..." : "Iniciar sesión"}
           </button>
           <div className="wrapper-center">
@@ -103,17 +103,18 @@ const Login = () => {
               Olvidé mi contraseña{" "}
             </Link>
           </div>
-        </div>
-        <div className="wrapper-center">
-        {error && <div className="error">{error.message}</div>}
-        </div>
-
-        <div>
+          <div>
           ¿No tienes una cuenta?{" "}
           <Link to="/Register" className="link">
             Registrate
           </Link>
         </div>
+        </div>
+        <div className="wrapper-center">
+        {error && <div className="error">{error.message}</div>}
+        </div>
+
+        
       </form>
     </div>
     </>

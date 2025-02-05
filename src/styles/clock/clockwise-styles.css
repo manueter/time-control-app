@@ -1,10 +1,8 @@
 .clock-container {
-    min-height: 100vh;
-    background: linear-gradient(to bottom right, #2d3748, #4a5568);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.2rem;
   }
   
   .clock-content {
@@ -36,6 +34,8 @@
     position: relative;
     width: 16rem;
     height: 16rem;
+
+    
     margin: 0 auto;
     border-radius: 50%;
     background-color: white;
