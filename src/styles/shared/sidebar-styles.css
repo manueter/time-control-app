@@ -8,27 +8,30 @@
   top: 0;
   left: 0;
   height: 100vh;
-  background-color: rgba(15, 23, 42, 0.6); /* bg-slate-700/60 */
+  background-color: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(8px);
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   z-index: 50;
 }
 
 .sidebar.closed {
   transform: translateX(-100%);
-  width: 16rem; /* Sidebar width when closed */
+  width: 16rem;
 }
 
 .sidebar.open {
   transform: translateX(0);
-  width: 16rem; /* Sidebar width when open */
+  width: 16rem; 
 }
 
 .sidebar-content {
-  padding: 2rem 1rem; /* px-4 py-8 */
+  padding: 2rem 1rem; 
 }
 
 .menu {
@@ -52,7 +55,7 @@
 }
 
 .menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* hover:bg-white/20 */
+  background-color: rgba(255, 255, 255, 0.2); 
 }
 
 .menu-item span {
@@ -61,22 +64,22 @@
 
 
 .menu-item.disabled {
-  color: gray; /* Change the color for disabled items */
-  pointer-events: none; /* Disable click interactions */
-  cursor: not-allowed; /* Change the cursor to 'not-allowed' */
+  color: gray; 
+  pointer-events: none; 
+  cursor: not-allowed;
 }
 
 
 .sidebar-footer {
-  padding: 1rem; /* p-4 */
-  border-top: 1px solid rgba(255, 255, 255, 0.1); /* border-white/10 */
+  padding: 1rem; 
+  border-top: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
 .sidebar-toggle {
   position: fixed;
-  top: 1rem; /* top-4 */
+  top: 1rem; 
   left: 0;
-  background-color: rgba(15, 23, 42, 0.6); /* bg-slate-700/60 */
+  background-color: rgba(15, 23, 42, 0.6); 
   backdrop-filter: blur(8px);
   color: white;
   padding: 0.75rem;
@@ -86,15 +89,15 @@
 }
 
 .sidebar-toggle:hover {
-  background-color: rgba(30, 41, 59, 0.8); /* hover:bg-slate-600/60 */
+  background-color: rgba(30, 41, 59, 0.8);
 }
 
 .sidebar-toggle.closed{
-  left: 0; /* When sidebar is open, the toggle button moves with the sidebar */
+  left: 0; 
   
   border-radius: 0 1rem 1rem 0;
 }
 .sidebar-toggle.open{
-  left: 15rem; /* When sidebar is open, the toggle button moves with the sidebar */ 
+  left: 15rem;  
   border-radius: 1rem;
 }

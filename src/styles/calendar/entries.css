@@ -1,9 +1,11 @@
 .entry-preview {
+  width: 100%;
+  align-items: end;
   font-size: 0.8em;
   color: #c6b7b7;
   margin-top: 8px;
   justify-items: end;
-  display:flex;
+  display: flex;
   flex-direction: column;
   scrollbar-color: #888 #333;
   gap: 4px;
@@ -16,7 +18,7 @@
 }
 
 .entry {
-  background-color: #f3f4f6;
+  background-color: #bcbec2;
   padding: 2px 4px;
   border-radius: 4px;
   font-size: 12px;

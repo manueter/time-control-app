@@ -59,7 +59,7 @@ const EntriesButtons: React.FC<EntriesButtonsProps> = ({
           </option>
         ))}
       </select>
-      <button type="submit" disabled={isLoading}>
+      <button className="input-button" type="submit" disabled={isLoading}>
         {isLoading ? "Cargando..." : "Registrar marca"}
       </button>
     </form>

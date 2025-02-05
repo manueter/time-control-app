@@ -1,10 +1,10 @@
 form {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
   justify-content: space-between;
 }
-/* General Card Styles */
+
 .card {
   background-color: rgba(31, 41, 55, 0.8);
   border: 1px solid black;
@@ -24,14 +24,12 @@ form {
   transform: translateY(0);
 }
 
-/* Wrapper */
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-/* Input Wrappers */
 .wrapper-input {
   position: relative;
   text-align: left;
@@ -44,29 +42,27 @@ form {
   font-size: 1rem;
   transition: top 0.5s ease-in-out;
 }
-.wrapper-center{
-  
+.wrapper-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .input {
-    display: block;
-    text-align: right;
-    width: 18rem;
-    font-size: 1rem;
-    padding: 1.2rem;
-    padding-left: 4.5rem;
-    background-color: transparent;
-    border: 0;
-    color: #ffff;
-    border-bottom: 2px solid #d1d5db; 
-    appearance: none;
-    overflow-x: auto;
+  display: block;
+  text-align: right;
+  width: 18rem;
+  font-size: 1rem;
+  padding: 1.2rem;
+  padding-left: 4.5rem;
+  background-color: transparent;
+  border: 0;
+  color: #ffff;
+  border-bottom: 2px solid #d1d5db;
+  appearance: none;
+  overflow-x: auto;
 }
 
-/* Hover and Focus Effects */
 .input:hover,
 .input:hover + label {
   border-bottom-color: #3b82f6;
@@ -89,15 +85,16 @@ form {
 }
 
 input[type="checkbox"]:checked + label {
-    color: #3b82f6;
-  }
-  input[type="checkbox"]:hover + label {
-    color: #6ea1f5;
-  }
-  
-  .link:hover {
-    color: white;
-  }
+  color: #3b82f6;
+}
+input[type="checkbox"]:hover + label {
+  color: #6ea1f5;
+}
 
+.link:hover {
+  color: white;
+}
 
-  
+.input-button{
+  padding: 0.6em 1.2em;
+}

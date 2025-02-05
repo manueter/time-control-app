@@ -11,49 +11,36 @@
   padding: 0.5rem;
 }
 
-
-
-.day-cell,
-.button-cell {
-  
-  display: flex;
+.day-cell{
+  padding: 0;
+  height: 80px;
+  width: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
   background-color: transparent;
   border-radius: 8px;
   opacity: 100%;
-  height: 80px;
-
-  padding: 0;
-  overflow-y: hidden; 
-  overflow-x: hidden;
-
-  scrollbar-width: thin;
-  scrollbar-color: #888 #333;
   border: 1px solid #999a9e;
+  margin:0;
   cursor: pointer;
-
-  justify-content: space-between; /* Push items apart vertically */
   transition: background-color 0.3s;
 }
 
-.button-cell {
-  height: 100%;
-  width: 100%;
+.list-cell{
+  padding: 0.6em 1.2em;
+  display: flex;
   
-  padding: 0.6em;
-} 
+  width: 100%;
+}
+.calendar-cell{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0.2em;
+}
 
 .day-cell:hover {
   background-color: #65686b;
-}
-
-.current-day {
-  border-radius: 8px;
-  opacity: 100%;
-  border: 2px solid #8dc10b;
-}
-
-.current-day .day-number {
-  color: #8dc10b;
 }
 
 .day-cell.selected {
@@ -66,4 +53,19 @@
   background-color: #000000;
   opacity: 0%;
   cursor: default;
+}
+
+.current-day {
+  border-radius: 8px;
+  opacity: 100%;
+  border: 2px solid #8dc10b;
+}
+
+.current-day .day-number {
+  color: #8dc10b;
+}
+.day-number{
+  display: flex;
+  width: 100%;
+
 }

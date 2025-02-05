@@ -12,6 +12,10 @@
   cursor: pointer;
   transition: all 0.5s;
 }
+.view-toggle-button{
+
+  padding: 0.3em 0.6em;
+}
 
 .navigation-button:hover {
   background-color: #343f55;

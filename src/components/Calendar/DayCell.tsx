@@ -47,6 +47,7 @@ const DayCell: React.FC<DayCellProps> = ({
       if (isListView) {
         classNameTo += "list-cell ";
       }
+      else{classNameTo+="calendar-cell "}
       classNameTo += isSelected ? "selected " : "";
     }
     return classNameTo;
@@ -67,9 +68,9 @@ const DayCell: React.FC<DayCellProps> = ({
   return isListView && !date ? (
     <></>
   ) : (
-    <div className={cellClassName()}>
+
       <button
-        className="button-cell"
+        className={cellClassName()}
         onClick={(event) => date && handleClick(event, date)}
       >
         {date && (
@@ -86,7 +87,6 @@ const DayCell: React.FC<DayCellProps> = ({
           </>
         )}
       </button>
-    </div>
   );
 };
 
