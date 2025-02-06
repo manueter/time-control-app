@@ -10,12 +10,11 @@
   border: 2px solid #374151;
   border-radius: 2rem;
   box-shadow: 0 10px 6px rgba(0, 0, 0, 0.1);
-  transform: translateY(50px);
   transition: opacity 0.2s, transform 0.3s;
 
   width: 80%;
   max-height: 90%;
-  margin: 2rem;
+  margin: auto ;
   padding: 1rem; 
 
   overflow:scroll;
@@ -55,7 +54,7 @@
   align-items: bottom;
 }
 .deselect-all-button{
-  margin-bottom: 1rem;
+  margin: 1rem;
   padding: 0.3em 1em;
   transition: all, 0.2s;
 }

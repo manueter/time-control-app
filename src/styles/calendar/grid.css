@@ -1,10 +1,9 @@
 .calendar-grid {
   display: grid;
-  margin-bottom: 1rem;
-  justify-content: center;
+  margin: auto, auto, 0, 1rem;
   min-width: 30vw ;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.2rem;
+  gap: 0.4rem;
 }
 
 .day-header {
@@ -31,7 +30,7 @@
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  min-height: 10vh;
+  height: 12vh;
   min-width: 10vh;
   align-items: end;
   flex-grow: 1;
