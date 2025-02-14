@@ -71,7 +71,6 @@ export const useDateSelection = () => {
       );
       setIsModalOpen(true);
     }
-    console.log(selectedDates);
   };
 
   const deselectAll = () => {

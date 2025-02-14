@@ -28,14 +28,7 @@ const Login = () => {
     const timer = setTimeout(() => setShowCard(true), 70);
     return () => clearTimeout(timer);
   }, []);
-
-  // useEffect(() => {
-  //   if (error) {
-  //     showAlert(error.message || "No se pudo iniciar sesión.", "error");
-  //   }
-  // }, [error, showAlert]);
-
-
+  
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -53,8 +46,8 @@ const Login = () => {
       };
       const data = await postData(payload);
 
-      if (!data) {
-        showAlert("No se pudo iniciar sesión. Inténtelo de nuevo.", "error");
+      if (error) {
+        showAlert(error.message||"No se pudo iniciar sesión. Inténtelo de nuevo.", "error");
         return;
       }
 

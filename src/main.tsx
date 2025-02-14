@@ -13,7 +13,6 @@ createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <AlertProvider>
           <App />
-
           <AlertsList />
         </AlertProvider>
       </AuthProvider>
