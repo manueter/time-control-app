@@ -1,18 +1,29 @@
 .modal-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: transparent;
   display: flex;
+  border:none;
+  
   align-items: center;
   justify-content: center;
 }
 
 .modal {
-  background-color: rgba(24, 25, 26, 0.8);
+  background-color: rgba(24, 25, 26);
   opacity: 100%;
   padding: 1.5rem;
   border-radius: 0.375rem;
   width: 24rem;
+/* 
+
+  max-width: 500px; 
+  max-height: 80vh;
+  overflow-y: auto; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
+*/
+/* 
+  z-index: 1001; above overlay */
 }
 
 .modal-header {

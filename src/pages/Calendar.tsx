@@ -7,11 +7,11 @@ import {
   dateToString_DDMMYYYY,
   getDaysInMonth,
 } from "../utils/dateUtils";
-import "../styles/calendar/calendar.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useCalendarEntries } from "../hooks/useCalendarEntries";
 import { useDateSelection } from "../hooks/useDateSelection";
 import { useAlerts } from "../contexts/AlertContext";
+import "../styles/calendar/calendar.css";
 
 const Calendar: React.FC = () => {
   const { user } = useAuth();
@@ -91,15 +91,15 @@ const Calendar: React.FC = () => {
   };
 
   return (
-    <div className="calendar-container">
-      <div className="calendar-header">
+    <section className="calendar-container">
+      <header className="calendar-header">
         <Header
           isListView={isListView}
           toggleListView={() => setIsListView(!isListView)}
           currentDate={currentDate}
           navigateMonth={navigateMonth}
         />
-      </div>
+      </header>
       {isListView ? (
         selectedDates.length > 0 && (
           <button className="deselect-all-button" onClick={deselectAll}>
@@ -135,14 +135,14 @@ const Calendar: React.FC = () => {
         />
       )}
 
-      <div className="calendar-footer">
+      <footer className="calendar-footer">
         {!isListView && selectedDates.length > 0 && (
           <button className="deselect-all-button" onClick={deselectAll}>
             Borrar selección
           </button>
         )}
-      </div>
-    </div>
+      </footer>
+    </section>
   );
 };
 

@@ -14,7 +14,7 @@
 
 .day-cell{
   padding: 0;
-  overflow: scroll;
+  overflow: none;
   scrollbar-width: none;
   background-color: transparent;
   border-radius: 8px;

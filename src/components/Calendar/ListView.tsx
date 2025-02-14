@@ -2,6 +2,7 @@ import React from "react";
 import DayCell from "./DayCell";
 import { Entry } from "../../types/interfaces";
 import { filterEntriesByDate } from "../../utils/entryUtils";
+import "../../styles/calendar/list.css";
 
 interface ListViewProps {
   days: (Date | null)[];
@@ -22,7 +23,7 @@ const ListView: React.FC<ListViewProps> = ({
   selectedDates,
 }) => {
   return (
-  <div className="calendar-list">
+  <section className="calendar-list">
     {days.map((date, index) => (
       <DayCell
         key={index}
@@ -34,7 +35,7 @@ const ListView: React.FC<ListViewProps> = ({
         isListView={true}
       />
     ))}
-  </div>
+  </section>
 )};
 
 export default ListView;

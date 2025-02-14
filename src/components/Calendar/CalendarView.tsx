@@ -21,7 +21,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
 
   return(
   
-    <div className="calendar-grid">
+    <section className="calendar-grid">
       {daysOfWeekTitles.map((day) => (
         <div key={day} className="day-header">
           {day.substring(0,3)}
@@ -29,7 +29,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
       ))}
       {days?.map((date, index) => (
         <DayCell
-          key={index}
+          key={date ? date.toISOString() : `null-${index}`}
           date={date}
           selectedDates={selectedDates}
           entries={date ? filterEntriesByDate(entries, date) : []}
@@ -37,7 +37,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
           isListView={false}
         />
       ))}
-    </div>
+    </section>
   );
   
 }

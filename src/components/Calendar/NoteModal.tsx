@@ -21,10 +21,11 @@ const NoteModal: React.FC<NoteModalProps> = ({
   closeModal,
   handleNoteSubmit,
 }) => (
-  <div className="modal-overlay">
+  <dialog className="modal-overlay">
+    
     <div className="modal">
       <div className="modal-header">
-        <h3>Nota para: {selectedDatesToString(selectedDates)}</h3>
+        <h3>{selectedDatesToString(selectedDates)}</h3>
         <button onClick={closeModal} className="close-modal-button">
           <FaTimes />
         </button>
@@ -50,12 +51,13 @@ const NoteModal: React.FC<NoteModalProps> = ({
           placeholder="Ingrese una nota aqui..."
         />
         {/** TODO agregar logica para guardar NOTAS */}
+        <br/>
         <button type="submit" className="save-note-button" disabled>
           Guardar
         </button>
       </form>
     </div>
-  </div>
+  </dialog>
 );
 
 export default NoteModal;
