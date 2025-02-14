@@ -35,8 +35,8 @@ export const useGet = <T>(
   // Handle token refresh
   const handleTokenRefresh = async (): Promise<string | null> => {
     const newToken = await refreshToken(user?.token ?? "");
-    if (!newToken) throw new Error("Failed to refresh token. Please log in again.");
-    if (!user?.user_uuid) throw new Error("Failed to update user: Missing user_uuid.");
+    if (!newToken) throw new Error("Error al refrescar el token. Por favor inicia sesion nuevamente.");
+    if (!user?.user_uuid) throw new Error("Error al actualizar usuario.");
 
     setUser({ ...user, token: newToken });
     return newToken;

@@ -2,16 +2,21 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import ClockCard from "../components/clock/ClockCard";
 import { useSubmitEntry } from "../hooks/useSubmitEntry";
-import { useFetchEntriesTypes, useFetchServerTime } from "../hooks/useFetchClockProgram";
+import {
+  useFetchEntriesTypes,
+  useFetchServerTime,
+} from "../hooks/useFetchClockProgram";
 import { EntryType } from "../types/interfaces";
+import { useAlerts } from "../contexts/AlertContext";
 
 const ClockPage = () => {
   const [showCard, setShowCard] = useState(false);
   const { user } = useAuth();
   const { submitEntry, isSubmitting } = useSubmitEntry();
-  const {entriesTypes, isLoading, fetchEntriesTypes} = useFetchEntriesTypes();
-  const {serverTime, fetchServerTime } = useFetchServerTime();
+  const { entriesTypes, isLoading, fetchEntriesTypes } = useFetchEntriesTypes();
+  const { serverTime, fetchServerTime } = useFetchServerTime();
 
+  const { showAlert } = useAlerts();
   useEffect(() => {
     fetchServerTime();
     fetchEntriesTypes();
@@ -22,15 +27,18 @@ const ClockPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleEntrySubmit = async (entry:EntryType) => {
+  const handleEntrySubmit = async (entry: EntryType) => {
     if (!user?.token) {
-      alert("Tienes que iniciar sesion para registrar una marca.");
+      showAlert("Tienes que iniciar sesion para registrar una marca.", "error");
       return;
     }
     try {
-      await submitEntry(entry.id,entry.description);
-    } catch (error) {
-      alert("Error al registrar marca.");
+      const result = await submitEntry(entry.id, entry.description);
+      if (result.success) {
+        showAlert(result.message, "success");
+      }
+    } catch (e) {
+      showAlert("Error", "error");
     }
   };
   return (

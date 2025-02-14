@@ -8,7 +8,7 @@ const useKeepAlive = () => {
         .catch((err) => console.error("No connection with server:", err));
     };
 
-    const interval = setInterval(keepAlive, 300000); // Every 5 minutes
+    const interval = setInterval(keepAlive, 300000); //  5 minutes
     keepAlive(); 
     return () => clearInterval(interval);
   }, []);

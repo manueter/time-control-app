@@ -11,6 +11,7 @@ import "../styles/calendar/calendar.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useCalendarEntries } from "../hooks/useCalendarEntries";
 import { useDateSelection } from "../hooks/useDateSelection";
+import { useAlerts } from "../contexts/AlertContext";
 
 const Calendar: React.FC = () => {
   const { user } = useAuth();
@@ -31,6 +32,7 @@ const Calendar: React.FC = () => {
     setCurrentNote,
   } = useDateSelection();
 
+  const { showAlert } = useAlerts();
   const [isListView, setIsListView] = useState(false);
   const [visibleDates, setVisibleDates] = useState<(Date | null)[]>();
   const [visibleStartDate, setVisibleStartDate] = useState<string | null>(null);
@@ -76,7 +78,8 @@ const Calendar: React.FC = () => {
 
   const handleNoteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("No se puede guardar notas actualmente.");
+    
+    showAlert("No se puede guardar notas actualmente.","error");
     setIsModalOpen(false);
   };
 

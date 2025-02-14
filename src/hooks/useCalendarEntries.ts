@@ -12,7 +12,7 @@ export const useCalendarEntries = () => {
             const fetchedEntries = await fetchEntries(startDate, endDate);
             setEntries(fetchedEntries);
         } catch (error) {
-            console.error("Error fetching entries:", error);
+            console.error("Error al traer las entradas:", error);
         }
     };
 

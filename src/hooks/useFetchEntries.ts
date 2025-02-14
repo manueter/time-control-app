@@ -20,7 +20,7 @@ export const useFetchEntries = () => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch entries.");
+      throw new Error("Error al traer las entradas.");
     }
     const data: Entry[] = await response.json();
     return data;

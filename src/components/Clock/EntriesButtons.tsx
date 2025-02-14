@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EntryType } from "../../types/interfaces";
 import "../../styles/shared/form-styles.css";
 import "../../styles/clock/clock-styles.css";
+import { useAlerts } from "../../contexts/AlertContext";
 
 interface EntriesButtonsProps {
   onSubmit: (entryType: EntryType) => void;
@@ -14,6 +15,7 @@ const EntriesButtons: React.FC<EntriesButtonsProps> = ({
   isLoading,
   types,
 }) => {
+  const { showAlert } = useAlerts();
   const [selectedEntryType, setSelectedEntryType] = useState<EntryType | null>(
     null
   );
@@ -29,16 +31,12 @@ const EntriesButtons: React.FC<EntriesButtonsProps> = ({
     if (selectedEntryType) {
       onSubmit(selectedEntryType);
     } else {
-      alert("Por favor selecciona un evento.");
+      showAlert("Por favor selecciona un evento.", "error");
     }
   };
 
   if (types?.length === 0) {
-    return (
-      <span>
-        Cargando entradas...
-      </span>
-    );
+    return <span>Cargando entradas...</span>;
   }
 
   return (

@@ -8,16 +8,14 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const useSubmitEntry = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
-
   const { postData, isLoading, error } = usePost(
     `${API_BASE_URL}/entries/add`,
-    true // `requiresAuth` 
+    true
   );
 
-  const submitEntry = async (entryId: number, entryDescription:string) => {
+  const submitEntry = async (entryId: number, entryDescription: string) => {
     if (!user?.token) {
-      alert("You must be logged in to submit an entry.");
-      return;
+      return { success: false, message: "Debes iniciar sesión para registrar una marca." };
     }
 
     setIsSubmitting(true);
@@ -27,10 +25,10 @@ export const useSubmitEntry = () => {
         entry_type_id: entryId,
         user_uuid: user.user_uuid,
       });
-      alert(`${entryDescription} registrada correctamente!`);
+      return { success: true, message: `${entryDescription} registrada correctamente!` };
     } catch (err) {
       console.error(err);
-      alert("Ha ocurrido un error al registrar la entrada.");
+      return { success: false, message: "Ha ocurrido un error al registrar la entrada." };
     } finally {
       setIsSubmitting(false);
     }

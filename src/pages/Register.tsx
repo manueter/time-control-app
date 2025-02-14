@@ -5,18 +5,19 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { usePost } from "../hooks/usePost";
 import "../styles/shared/form-styles.css";
+import { useAlerts } from "../contexts/AlertContext";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Register = () => {
+  const { showAlert } = useAlerts();
   const [showCard, setShowCard] = useState(false);
   const navigate = useNavigate();
 
-  const { user} = useAuth();
+  const { user } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const { postData, isLoading } = usePost(
     `${API_BASE_URL}/users/register`,
@@ -34,7 +35,7 @@ const Register = () => {
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!email || !username || !password) {
-      alert("Por favor, complete todos los campos.");
+      showAlert("Por favor, complete todos los campos.","error");
       return;
     }
     try {
@@ -45,12 +46,13 @@ const Register = () => {
       };
       const data = await postData(payload);
       if (data) {
-        alert("Registro con éxito.");
+        showAlert("Registro con éxito.","success");
         navigate("/login");
       }
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message || "No se pudo registrar.");
+        
+        showAlert(error.message || "No se pudo registrar.","error");
       }
     }
   };

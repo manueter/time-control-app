@@ -15,10 +15,10 @@ export const refreshToken = async (
       const { token: newToken } = await response.json();
       return newToken;
     } else {
-      throw new Error("Failed to refresh token");
+      throw new Error("Error al recargar token");
     }
   } catch (error) {
-    console.error("Error refreshing token:", error);
+    console.error("Error al recargar token:", error);
     return null;
   }
 };

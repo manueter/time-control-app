@@ -20,7 +20,7 @@ export const useFetchNotes = () => {
     try {
       const response = await fetch(`${API_BASE_URL}/notes`);
       if (!response.ok) {
-        throw new Error("Failed to fetch notes");
+        throw new Error("Error al traer las notas");
       }
       const data = await response.json();
       setNotes(data);

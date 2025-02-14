@@ -29,3 +29,5 @@ export interface Entry {
   time: string;
   clock_id: string;
 }
+export type NotificationType = 'success' | 'error' | 'info';
+
