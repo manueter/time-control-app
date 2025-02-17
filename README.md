@@ -80,11 +80,4 @@ project-root
 
 > **Note**: The structure and files of this project are subject to change as development progresses.
 
-## Contact
-
-For any inquiries or feedback, please reach out to:
-
-- **Email**: [manuelnuez@tutanota.com](mailto:mannuelnuez@tutanota.com)
-- **GitHub**: [manueter](https://github.com/manueter)
-
 ---
