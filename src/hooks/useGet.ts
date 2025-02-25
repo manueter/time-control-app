@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { refreshToken } from "../services/apiService";
+import { supabase } from "../utils/supabase";
 
 interface UseGetResult<T> {
   data: T | null;
@@ -9,66 +8,32 @@ interface UseGetResult<T> {
   fetchData: () => Promise<void>;
 }
 
-export const useGet = <T>(
-  url: string,
-  requiresAuth: boolean = false
-): UseGetResult<T> => {
+export const useGet = <T>(url: string): UseGetResult<T> => {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  const { user, setUser } = useAuth();
-
-  // Helper to build headers
-  const buildHeaders = (token?: string): Record<string, string> => {
-    const headers: Record<string, string> = {};
-    if (requiresAuth && token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-    return headers;
-  };
-
-  // Helper to make fetch requests
-  const makeRequest = async (headers: Record<string, string>): Promise<Response> => {
-    return await fetch(url, { method: "GET", headers });
-  };
-
-  // Handle token refresh
-  const handleTokenRefresh = async (): Promise<string | null> => {
-    const newToken = await refreshToken(user?.token ?? "");
-    if (!newToken) throw new Error("Error al refrescar el token. Por favor inicia sesion nuevamente.");
-    if (!user?.user_uuid) throw new Error("Error al actualizar usuario.");
-
-    setUser({ ...user, token: newToken });
-    return newToken;
-  };
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const headers = buildHeaders(user?.token);
-      let response = await makeRequest(headers);
+      const { data: fetchedData, error: fetchError } = await supabase
+        .from(url)
+        .select('*');
 
-      if (requiresAuth && response.status === 401) {
-        const newToken = await handleTokenRefresh();
-        if (newToken) {
-          response = await makeRequest(buildHeaders(newToken));
-        }
+      if (fetchError) {
+        throw new Error(fetchError.message);
       }
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      const responseData = await response.json();
-      setData(responseData);
+      setData(fetchedData as T);
     } catch (err) {
+      console.error('Fetch error:', err);
       setError(err as Error);
     } finally {
       setIsLoading(false);
     }
-  }, [url, requiresAuth, user, setUser]);
+  }, [url]);
 
   return { data, isLoading, error, fetchData };
 };

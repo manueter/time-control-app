@@ -17,16 +17,18 @@ interface DayCellProps {
   handleClick: (event: React.MouseEvent<HTMLButtonElement>, date: Date) => void;
   isListView: boolean;
 }
-
+ 
 const DayCell: React.FC<DayCellProps> = ({
   date,
   selectedDates,
-  //notes,
+  notes,
   entries,
   handleClick,
   isListView,
 }) => {
   if (!date) return <div className="empty-cell" />;
+
+  if(notes){console.log(notes)}
 
   const isSelected = selectedDates.some(
     (d) => d.toISOString() === date.toISOString()
@@ -89,6 +91,6 @@ const DayCell: React.FC<DayCellProps> = ({
         )}
       </button>
   );
-};
+}; 
 
 export default DayCell;

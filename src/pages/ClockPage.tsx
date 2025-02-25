@@ -4,7 +4,7 @@ import ClockCard from "../components/clock/ClockCard";
 import { useSubmitEntry } from "../hooks/useSubmitEntry";
 import {
   useFetchEntriesTypes,
-  useFetchServerTime,
+  getServerTime,
 } from "../hooks/useFetchClockProgram";
 import { EntryType } from "../types/interfaces";
 import { useAlerts } from "../contexts/AlertContext";
@@ -12,15 +12,27 @@ import { useAlerts } from "../contexts/AlertContext";
 const ClockPage = () => {
   const [showCard, setShowCard] = useState(false);
   const { user } = useAuth();
-  const { submitEntry, isSubmitting } = useSubmitEntry();
+  const { submitEntry } = useSubmitEntry();
+  const [time, setTime] = useState<Date | null>(null); 
   const { entriesTypes, isLoading, fetchEntriesTypes } = useFetchEntriesTypes();
-  const { serverTime, fetchServerTime } = useFetchServerTime();
-
   const { showAlert } = useAlerts();
+
+
+  const fetchServerTime = async () => {
+    const serverTime = await getServerTime(); 
+    if (serverTime) {
+      setTime(new Date(serverTime)); 
+      return new Date(serverTime); 
+    } else {
+      setTime(null); 
+      return null; 
+    }
+  };
+  
   useEffect(() => {
     fetchServerTime();
     fetchEntriesTypes();
-  }, [fetchServerTime, fetchEntriesTypes]);
+  }, [fetchEntriesTypes]);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowCard(true), 70);
@@ -28,7 +40,7 @@ const ClockPage = () => {
   }, []);
 
   const handleEntrySubmit = async (entry: EntryType) => {
-    if (!user?.token) {
+    if (!user) {
       showAlert("Tienes que iniciar sesion para registrar una marca.", "error");
       return;
     }
@@ -44,8 +56,8 @@ const ClockPage = () => {
   return (
     <ClockCard
       showCard={showCard}
-      serverTime={serverTime}
-      isLoading={isSubmitting || isLoading}
+      time={time}
+      isLoading={isLoading}
       userIsLogged={!!user}
       entriesTypes={entriesTypes}
       handleEntrySubmit={handleEntrySubmit}

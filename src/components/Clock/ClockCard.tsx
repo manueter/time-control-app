@@ -5,7 +5,7 @@ import { EntryType } from "../../types/interfaces";
 import { Link } from "react-router";
 
 interface ClockCardProps {
-  serverTime: Date | null;
+  time: Date | null;
   isLoading: boolean;
   showCard: boolean;
   userIsLogged: boolean;
@@ -14,7 +14,7 @@ interface ClockCardProps {
 }
 const ClockCard: React.FC<ClockCardProps> = ({
   showCard,
-  serverTime,
+  time,
   isLoading,
   userIsLogged,
   entriesTypes,
@@ -29,8 +29,8 @@ const ClockCard: React.FC<ClockCardProps> = ({
           year: "numeric",
         }).format(new Date())}
       </h1>
-      <ClockWise serverTime={serverTime} />
-      <ClockDisplay serverTime={serverTime} showFormatToggle={true} />
+      <ClockWise serverTime={time} />
+      <ClockDisplay serverTime={time} showFormatToggle={true} />
       {userIsLogged ? (
         <EntriesButtons
           onSubmit={handleEntrySubmit}

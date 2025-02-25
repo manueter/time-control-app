@@ -1,29 +1,24 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Entry } from "../types/interfaces";
+import { supabase } from "../utils/supabase";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const useFetchEntries = () => {
-  const { user } = useAuth();
+  const { session } = useAuth();
 
-  const fetchEntries = async (startDate: string, endDate: string) => {
+  const fetchEntries = async (startDate: string, endDate: string): Promise<Entry[]> => {
+    
+    const { data, error } = await supabase
+      .from("entries") 
+      .select("*")
+      .eq("user_uuid", session?.user.id) // Filter by user_uuid
+      .gte("start_date", startDate) //Check both columns name for date filtering
+      .lte("end_date", endDate); 
 
-    const url = new URL(`${API_BASE_URL}/entries`);
-    url.searchParams.append("user_uuid", user?.user_uuid ?? "");
-
-    url.searchParams.append("start_date", startDate);
-    url.searchParams.append("end_date", endDate);
-
-    const response = await fetch(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${user?.token}`, 
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Error al traer las entradas.");
+    if (error) {
+      throw new Error(`Error fetching entries: ${error.message}`);
     }
-    const data: Entry[] = await response.json();
-    return data;
+
+    return data as Entry[];
   };
 
   return { fetchEntries };

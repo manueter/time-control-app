@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 
 export type AlertType = "success" | "error" | "warning" | "info";
 
@@ -30,8 +30,10 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
     setAlerts((prev) => prev.filter((alert) => alert.id !== id));
   };
 
+  const contextValue = useMemo(() => ({ alerts, showAlert, removeAlert }), [alerts]);
+
   return (
-    <AlertContext.Provider value={{ alerts, showAlert, removeAlert }}>
+    <AlertContext.Provider value={contextValue}>
       {children}
     </AlertContext.Provider>
   );

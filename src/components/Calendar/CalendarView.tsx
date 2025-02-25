@@ -2,8 +2,8 @@ import React from "react";
 import { Entry } from "../../types/interfaces";
 import { filterEntriesByDate } from "../../utils/entryUtils";
 import { daysOfWeekTitles } from "../../utils/dateUtils";
-import DayCell from "./DayCell";
 import "../../styles/calendar/grid.css";
+import DayCell from "./DayCell";
 
 interface CalendarViewProps {
   days: (Date | null)[] | undefined;

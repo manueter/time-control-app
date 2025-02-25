@@ -1,8 +1,8 @@
 import React from "react";
-import DayCell from "./DayCell";
 import { Entry } from "../../types/interfaces";
 import { filterEntriesByDate } from "../../utils/entryUtils";
 import "../../styles/calendar/list.css";
+import DayCell from "./DayCell";
 
 interface ListViewProps {
   days: (Date | null)[];

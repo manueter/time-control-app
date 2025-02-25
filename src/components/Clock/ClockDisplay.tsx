@@ -9,7 +9,7 @@ interface ClockDisplayProps {
 
 const ClockDisplay: React.FC<ClockDisplayProps> = ({ serverTime, showFormatToggle }) => {
   const [time, setTime] = useState(serverTime || new Date()); 
-  const [is24Hour, setIs24Hour] = useState(false);
+  const [is24Hour, setIs24Hour] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -20,6 +20,7 @@ const ClockDisplay: React.FC<ClockDisplayProps> = ({ serverTime, showFormatToggl
   }, []);
 
   const formatTime = () => {
+    
     let hours = time.getHours();
     const minutes = String(time.getMinutes()).padStart(2, "0");
     const seconds = String(time.getSeconds()).padStart(2, "0");

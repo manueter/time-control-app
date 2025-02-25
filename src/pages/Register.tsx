@@ -3,26 +3,23 @@ import { AiOutlineLock } from "react-icons/ai";
 import { BiUser } from "react-icons/bi";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
-import { usePost } from "../hooks/usePost";
 import "../styles/shared/form-styles.css";
 import { useAlerts } from "../contexts/AlertContext";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Register = () => {
+
+  const { user, register } = useAuth();
+
   const { showAlert } = useAlerts();
   const [showCard, setShowCard] = useState(false);
   const navigate = useNavigate();
 
-  const { user } = useAuth();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const { postData, isLoading } = usePost(
-    `${API_BASE_URL}/users/register`,
-    false
-  );
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false); 
+  
 
   useEffect(() => {
     if (user) {
@@ -35,27 +32,30 @@ const Register = () => {
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!email || !username || !password) {
-      showAlert("Por favor, complete todos los campos.","error");
+      showAlert("Por favor, complete todos los campos.", "error");
       return;
     }
+
+    setIsLoading(true); // Start loading
+
     try {
-      const payload = {
-        email,
-        username,
-        password,
-      };
-      const data = await postData(payload);
-      if (data) {
-        showAlert("Registro con éxito.","success");
-        navigate("/login");
+      const { error } = await register(email, password); // Use register from context
+      if (error) {
+        showAlert(error.message || "No se pudo registrar.", "error");
+        setIsLoading(false); // Stop loading
+        return;
       }
+      
+      showAlert("Registro con éxito.", "success");
+      navigate("/login");
     } catch (error) {
       if (error instanceof Error) {
-        
-        showAlert(error.message || "No se pudo registrar.","error");
+        showAlert(error.message || "No se pudo registrar.", "error");
       }
+      setIsLoading(false); // Stop loading
     }
   };
+
 
   return (
     <div className={`card ${showCard ? "show" : ""}`}>

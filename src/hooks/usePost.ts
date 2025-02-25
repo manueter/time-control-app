@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { refreshToken } from "../services/apiService";
+import { supabase } from "../utils/supabase";
 
 interface UsePostResult<T = any> {
   isLoading: boolean;
@@ -8,68 +7,31 @@ interface UsePostResult<T = any> {
   postData: (payload: Record<string, unknown>) => Promise<T | null>;
 }
 
-export const usePost = <T = any>(url: string, requiresAuth: boolean = false): UsePostResult<T> => {
+export const usePost = <T = any>(url: string): UsePostResult<T> => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  const { user, setUser } = useAuth();
 
   const postData = useCallback(async (payload: Record<string, unknown>) => {
     setIsLoading(true);
     setError(null);
-  
-    const buildHeaders = (): Record<string, string> => {
-      const headers: Record<string, string> = { "Content-Type": "application/json" };
-      if (requiresAuth && user?.token) {
-        headers["Authorization"] = `Bearer ${user.token}`;
-      }
-      return headers;
-    };
-  
-    const handleTokenRefresh = async (): Promise<string | null> => {
-      const newToken = await refreshToken(user?.token ?? "");
-      if (!newToken) throw new Error("Error al refrescar el token. Por favor inicia sesion nuevamente.");
-      if (!user?.user_uuid) throw new Error("Error al actualizar usuario.");
-  
-      setUser({ ...user, token: newToken });
-      return newToken;
-    };
-  
-    const makeRequest = async (headers: Record<string, string>, token?: string): Promise<Response> => {
 
-      const updatedHeaders = token ? { ...headers, Authorization: `Bearer ${token}` } : headers;
-
-      return await fetch(url, {
-        method: "POST",
-        headers: updatedHeaders,
-        body: JSON.stringify(payload),
-      });
-    };
-  
     try {
-      const headers = buildHeaders();
-      let response = await makeRequest(headers);
-     
-      if (requiresAuth && response.status === 401) {
-        const newToken = await handleTokenRefresh();
-        if(newToken){
-          response = await makeRequest(headers, newToken);
-        }
+      const { data, error: postError } = await supabase
+        .from(url) // Use the table name here
+        .insert([payload]);
+
+      if (postError) {
+        throw new Error(postError.message);
       }
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `Error: ${response.statusText}`);
-      }
-      return await response.json(); 
-    } 
-    catch (err) {
+      return data; // Adjust based on your needs
+    } catch (err) {
       setError(err as Error);
       return null;
     } finally {
       setIsLoading(false);
     }
-  }, [url, requiresAuth, user, setUser]);
-  
+  }, [url]);
 
   return { isLoading, error, postData };
 };

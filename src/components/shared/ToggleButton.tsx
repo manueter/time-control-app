@@ -12,7 +12,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
   label_b,
   onToggle,
 }) => {
-  const [isToggled, setIsToggled] = useState(true);
+  const [isToggled, setIsToggled] = useState(false);
 
   const handleToggle = () => {
     const newIsToggled = !isToggled;
