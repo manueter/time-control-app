@@ -17,7 +17,6 @@ export const getServerTime = async () => {
 };
 
 export const useFetchEntriesTypes = () => {
-
   const { data: entriesTypes, isLoading, error, fetchData: fetchEntriesTypes } = useGet<EntryType[]>(`entry_types`);
   return {
     entriesTypes: entriesTypes || [],

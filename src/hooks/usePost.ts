@@ -17,14 +17,12 @@ export const usePost = <T = any>(url: string): UsePostResult<T> => {
 
     try {
       const { data, error: postError } = await supabase
-        .from(url) // Use the table name here
+        .from(url) 
         .insert([payload]);
-
       if (postError) {
         throw new Error(postError.message);
       }
-
-      return data; // Adjust based on your needs
+      return data;
     } catch (err) {
       setError(err as Error);
       return null;
