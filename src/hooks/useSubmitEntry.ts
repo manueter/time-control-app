@@ -1,4 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
+import { localDate, localTime } from "../utils/dateUtils";
 import { usePost } from "./usePost";
 
 const DEFAULT_CLOCK_ID = import.meta.env.VITE_DEFAULT_CLOCK_ID || 1;
@@ -18,6 +19,8 @@ export const useSubmitEntry = () => {
         clock_id: DEFAULT_CLOCK_ID,
         entry_type_id: entryId,
         user_uuid: user.id,
+        date:localDate,
+        time:localTime
       });
 
 

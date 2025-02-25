@@ -99,6 +99,18 @@ export const dateToString_DDMMYYYY = (date: Date): string => {
 };
 
 export const convertDDMMYYToPostgresDate = (dateString: string) => {
-  const [day, month, year] = dateString.split("/"); // Split DD/MM/YYYY
-  return `${year}-${month}-${day}`; // Convert to YYYY-MM-DD
+  const [day, month, year] = dateString.split("/");
+  return `${year}-${month}-${day}`;
 };
+
+export const formatTime = (time: string): string => {
+  const date = new Date(`1970-01-01T${time}Z`); // Use a fixed date for formatting
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+};
+export const formatStringDatePostgresToDDMMYY= (dateString:string) =>{
+  const [year, month, day] = dateString.split('-'); // Split the string into parts
+  return `${day}/${month}/${year}`; // Return the formatted date
+}
+
+export const localDate = new Date().toISOString().split('T')[0]; 
+export const localTime = new Date().toTimeString().split(' ')[0].substring(0, 5);
