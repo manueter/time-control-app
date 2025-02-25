@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchSession();
-    
+
     // Listen for auth state changes
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  // Login Function
   const login = useCallback(async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { error };
@@ -46,24 +45,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSession(data.session);
     setUser(data.session?.user || null);
 
-    return {data};
+    return { data: data.session };
   }, []);
 
+
   // Register Function
-  const register = useCallback(async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) return { error };
-    return {};
+  const register = useCallback(async (email: string, password: string, username?: string) => {
+    try {
+      // Check if the user already exists
+      const {data:userExists,error:checkUserError} = await supabase.rpc('check_user_exists',{email}); 
+      
+      if (userExists) {
+        return { error: new AuthError("Usuario ya existe") };
+      }
+      else if(checkUserError){
+        return { error: new AuthError(checkUserError.message) };
+      }
+
+      // Register new user
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: username ? { data: { username } } : undefined,
+      });
+
+      if (error) return { error };
+
+      return { data };
+    } catch (err) {
+      return { error: new AuthError("Error inesperado") };
+    }
   }, []);
 
   // Logout Function
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
-    setSession(null); 
-    setUser(null);   
+    setSession(null);
+    setUser(null);
   }, []);
 
-  const contextValue = useMemo(() => ({ user, session, login, register, logout }), [user, session, login, logout]);
+
+  const contextValue = useMemo(() => ({ user, session, login, register, logout }), [user, session, login, register, logout]);
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

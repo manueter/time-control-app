@@ -97,3 +97,8 @@ export const dateToString_DDMMYYYY = (date: Date): string => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
+
+export const convertDDMMYYToPostgresDate = (dateString: string) => {
+  const [day, month, year] = dateString.split("/"); // Split DD/MM/YYYY
+  return `${year}-${month}-${day}`; // Convert to YYYY-MM-DD
+};
