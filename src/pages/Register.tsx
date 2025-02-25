@@ -39,7 +39,7 @@ const Register = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const { error } = await register(email, password); // Use register from context
+      const { error } = await register(email, password,username); // Use register from context
       if (error) {
         showAlert(error.message || "No se pudo registrar.", "error");
         setIsLoading(false); // Stop loading

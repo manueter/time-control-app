@@ -6,7 +6,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   login: (email: string, password: string) => Promise<{ error?: AuthError }>;
-  register: (email: string, password: string) => Promise<{ error?: AuthError }>;
+  register: (email: string, password: string,username?: string) => Promise<{ error?: AuthError }>;
   logout: () => Promise<void>;
 }
 
