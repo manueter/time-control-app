@@ -8,6 +8,7 @@
 - [Installation](#installation)
 - [Database Configuration (Supabase)](#database-configuration-supabase)
 - [Project Structure](#project-structure)
+- [Architecture Transition](#architecture-transition)
 
 ## Overview
 
@@ -156,4 +157,9 @@ project-root
 > **Note**: The structure and files of this project are subject to change as development progresses.
 
 ---
+
+## Architecture Transition
+
+Initially, this project relied on another backend project developed with Node.js and Express.js, which was deployed on Render using Render's database. However, due to limitations such as lengthy sleep times and a short free tier for the database, I transitioned to Supabase. The current version of this project can now be considered a "Serverless Full-Stack with Supabase." By moving to Supabase, the application operates entirely without the need for a separate server, relying solely on Supabase for backend operations. This shift simplifies the architecture and enhances scalability and maintenance.
+
 
