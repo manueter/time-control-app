@@ -112,5 +112,9 @@ export const formatStringDatePostgresToDDMMYY= (dateString:string) =>{
   return `${day}/${month}/${year}`; // Return the formatted date
 }
 
-export const localDate = new Date().toISOString().split('T')[0]; 
+const now = new Date();
+export const localDate = now.getFullYear() + '-' +
+  String(now.getMonth() + 1).padStart(2, '0') + '-' +
+  String(now.getDate()).padStart(2, '0');
+// export const localDate = new Date().toISOString().split('T')[0]; 
 export const localTime = new Date().toTimeString().split(' ')[0].substring(0, 5);
